@@ -1,0 +1,22 @@
+:local(.Button) {
+  box-sizing: border-box;
+  border-radius: 3px;
+  padding: 5px;
+  border: solid 1px transparent;
+  background: transparent;
+  vertical-align: middle;
+  font-size: 14px;
+  outline: none;
+  color: var(--color-444444);
+
+  &.disabled {
+    color: var(--color-999999);
+    cursor: default;
+  }
+
+  &:not(.disabled):hover,
+  &.active {
+    background: var(--silver-base-97);
+    border: solid 1px var(--color-cccccc);
+  }
+}

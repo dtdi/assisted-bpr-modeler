@@ -1,0 +1,36 @@
+:local(.DropZone) {
+  height: 100%;
+  width: 100%;
+}
+
+:local(.DropOverlay) {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+
+  padding: 120px 50px;
+
+  background: var(--color-ffffff-opacity-80);
+
+  pointer-events: none;
+
+  z-index: 1000;
+
+  .box {
+    text-align: center;
+    border: dashed 4px var(--color-dddddd);
+    height: 100%;
+    vertical-align: middle;
+
+    > div {
+      font-size: 26px;
+      color: var(--color-999999);
+      margin: auto;
+
+      top: 20%;
+      position: relative;
+    }
+  }
+}

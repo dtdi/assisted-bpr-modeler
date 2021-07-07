@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bsim="http://bsim.hpi.uni-potsdam.de/scylla/simModel"
+  xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:abpr="http://github.com/dtdi/dtdi"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn"
+  xmlns:bsimapi="http://github.com/dtdi/bsimapi" exporter="Camunda Modeler" exporterVersion="1.9.0">
+  <bsim:randomSeed>234234234</bsim:randomSeed>
+  <bsim:resourceAssignmentOrder>simulationTime</bsim:resourceAssignmentOrder>
+  <bpmn:error id="sid-527c85e4-2e57-43d3-9918-25016a1aae3d" name="Rejection" errorCode="501" />
+  <bpmn:error id="sid-527c85e4-2e57-43d3-9918-25016a1aae3e" name="Response" errorCode="502" />
+  <bpmn:process id="Process_1" isExecutable="true">
+    <bpmn:dataObjectReference id="DO1" dataObjectRef="DataObject_0kjmed6" />
+    <bpmn:dataObject id="DataObject_0kjmed6" />
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_0j7bd73">
+
+      <bpmn:incoming>SequenceFlow_0xblr5b</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0rflism</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1gklgse</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1utf9z2</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="UserTask_07b7vqr" name="Check Completeness">
+
+      <bpmn:incoming>SequenceFlow_1utf9z2</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1336ju4</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_0fdiprc" default="SequenceFlow_1ucpl9y" name="Information complete?">
+      <bpmn:incoming>SequenceFlow_1336ju4</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1rwddob</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_1ucpl9y</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="UserTask_1jdy2bz" name="Request further Information">
+    <bpmn:extensionElements>
+        <abpr:properties>
+          <abpr:property id="is-DU-07" value="true" type="boolean" />
+        </abpr:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1ucpl9y</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0ar5i7g</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="UserTask_12gn4u1" name="Check Application">
+      <bpmn:incoming>SequenceFlow_0ar5i7g</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1xeviwp</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_1njun59" name="Application rejected?">
+      <bpmn:incoming>SequenceFlow_1xeviwp</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0s080ub</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0p4v4z2</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sendTask id="SendTask_05lxxlm" name="Send Acceptance Proposal">
+      <bpmn:incoming>SequenceFlow_0s080ub</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0zxixi4</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:sendTask id="SendTask_1ens7cx" name="Send Credit Card">
+      <bpmn:incoming>SequenceFlow_0zxixi4</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0obz0xv</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:endEvent id="EndEvent_1cyfi3n" name="Credit Card sent">
+
+      <bpmn:incoming>SequenceFlow_0obz0xv</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sendTask id="SendTask_060ap9q" name="Send Rejection Notification">
+      <bpmn:incoming>SequenceFlow_0p4v4z2</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1cq427i</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:endEvent id="EndEvent_0b4zsh7" name="Application rejected">
+      <bpmn:incoming>SequenceFlow_1280ax3</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:startEvent id="StartEvent_1vcwaly" name="Apply for Credit Card">
+      <bpmn:outgoing>SequenceFlow_0xblr5b</bpmn:outgoing>
+      <bpmn:messageEventDefinition />
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0xblr5b" sourceRef="StartEvent_1vcwaly" targetRef="ExclusiveGateway_0j7bd73" />
+    <bpmn:sequenceFlow id="SequenceFlow_1utf9z2" sourceRef="ExclusiveGateway_0j7bd73" targetRef="UserTask_07b7vqr" />
+    <bpmn:sequenceFlow id="SequenceFlow_1336ju4" sourceRef="UserTask_07b7vqr" targetRef="ExclusiveGateway_0fdiprc" />
+    <bpmn:sequenceFlow id="SequenceFlow_1rwddob" name="not complete" sourceRef="ExclusiveGateway_0fdiprc" targetRef="Task_0ejr4pv">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">5</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_1ucpl9y" sourceRef="ExclusiveGateway_0fdiprc" targetRef="UserTask_1jdy2bz" />
+    <bpmn:sequenceFlow id="SequenceFlow_0ar5i7g" sourceRef="UserTask_1jdy2bz" targetRef="UserTask_12gn4u1" />
+    <bpmn:sequenceFlow id="SequenceFlow_1xeviwp" sourceRef="UserTask_12gn4u1" targetRef="ExclusiveGateway_1njun59" />
+    <bpmn:sequenceFlow id="SequenceFlow_0s080ub" sourceRef="ExclusiveGateway_1njun59" targetRef="SendTask_05lxxlm" />
+    <bpmn:sequenceFlow id="SequenceFlow_0p4v4z2" sourceRef="ExclusiveGateway_1njun59" targetRef="SendTask_060ap9q" />
+    <bpmn:sequenceFlow id="SequenceFlow_0zxixi4" sourceRef="SendTask_05lxxlm" targetRef="SendTask_1ens7cx" />
+    <bpmn:sequenceFlow id="SequenceFlow_0obz0xv" sourceRef="SendTask_1ens7cx" targetRef="EndEvent_1cyfi3n" />
+    <bpmn:task id="Task_0z3btzz" name="Wait">
+      <bpmn:incoming>SequenceFlow_1cq427i</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0441k18</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="SequenceFlow_1280ax3" sourceRef="BoundaryEvent_0ysr33s" targetRef="EndEvent_0b4zsh7" />
+    <bpmn:sequenceFlow id="SequenceFlow_1cq427i" sourceRef="SendTask_060ap9q" targetRef="Task_0z3btzz" />
+    <bpmn:sequenceFlow id="SequenceFlow_0441k18" sourceRef="Task_0z3btzz" targetRef="IntermediateThrowEvent_02rgl50" />
+    <bpmn:sequenceFlow id="SequenceFlow_19xhl1a" sourceRef="Task_0ejr4pv" targetRef="Task_14xyc1v" />
+    <bpmn:sendTask id="Task_0ejr4pv" name="Information is requested">
+      <bpmn:incoming>SequenceFlow_1rwddob</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_19xhl1a</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0rflism" sourceRef="Task_14xyc1v" targetRef="ExclusiveGateway_0j7bd73" />
+    <bpmn:receiveTask id="Task_14xyc1v" name="Received Missing Information">
+      <bpmn:incoming>SequenceFlow_19xhl1a</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0rflism</bpmn:outgoing>
+    </bpmn:receiveTask>
+    <bpmn:boundaryEvent id="BoundaryEvent_0ysr33s" name="Rejection" attachedToRef="Task_0z3btzz">
+      <bpmn:outgoing>SequenceFlow_1280ax3</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="sid-ebe582ba-f04b-4ed3-a09f-c1946b83b36e">
+        <bpmn:timeDuration xsi:type="bpmn:tExpression" id="sid-383e9670-1224-4988-9d90-7a0eb30e80eb">PT2H</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1gklgse" sourceRef="IntermediateThrowEvent_02rgl50" targetRef="ExclusiveGateway_0j7bd73" />
+    <bpmn:intermediateCatchEvent id="IntermediateThrowEvent_02rgl50" name="Received Response on Rejection">
+      <bpmn:incoming>SequenceFlow_0441k18</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1gklgse</bpmn:outgoing>
+      <bpmn:messageEventDefinition />
+    </bpmn:intermediateCatchEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="DO1_di" bpmnElement="DO1">
+        <dc:Bounds x="592" y="95" width="36" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_0j7bd73_di" bpmnElement="ExclusiveGateway_0j7bd73" isMarkerVisible="true">
+        <dc:Bounds x="-34" y="266" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="-99" y="320" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_07b7vqr_di" bpmnElement="UserTask_07b7vqr">
+        <dc:Bounds x="98" y="251" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_0fdiprc_di" bpmnElement="ExclusiveGateway_0fdiprc" isMarkerVisible="true">
+        <dc:Bounds x="284" y="266" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="219" y="320" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1jdy2bz_di" bpmnElement="UserTask_1jdy2bz">
+        <dc:Bounds x="423" y="251" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_12gn4u1_di" bpmnElement="UserTask_12gn4u1">
+        <dc:Bounds x="584" y="251" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_1njun59_di" bpmnElement="ExclusiveGateway_1njun59" isMarkerVisible="true">
+        <dc:Bounds x="750" y="266" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="685" y="320" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SendTask_05lxxlm_di" bpmnElement="SendTask_05lxxlm">
+        <dc:Bounds x="823" y="119" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SendTask_1ens7cx_di" bpmnElement="SendTask_1ens7cx">
+        <dc:Bounds x="1025" y="119" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1cyfi3n_di" bpmnElement="EndEvent_1cyfi3n">
+        <dc:Bounds x="1231" y="141" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1220" y="181" width="59" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SendTask_060ap9q_di" bpmnElement="SendTask_060ap9q">
+        <dc:Bounds x="823" y="342" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0b4zsh7_di" bpmnElement="EndEvent_0b4zsh7">
+        <dc:Bounds x="1231" y="364" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1206" y="404" width="87" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1vcwaly_di" bpmnElement="StartEvent_1vcwaly">
+        <dc:Bounds x="-102" y="273" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="-124" y="326" width="79" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0xblr5b_di" bpmnElement="SequenceFlow_0xblr5b">
+        <di:waypoint xsi:type="dc:Point" x="-66" y="291" />
+        <di:waypoint xsi:type="dc:Point" x="-34" y="291" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="-95" y="270" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1utf9z2_di" bpmnElement="SequenceFlow_1utf9z2">
+        <di:waypoint xsi:type="dc:Point" x="16" y="291" />
+        <di:waypoint xsi:type="dc:Point" x="98" y="291" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="12" y="270" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1336ju4_di" bpmnElement="SequenceFlow_1336ju4">
+        <di:waypoint xsi:type="dc:Point" x="198" y="291" />
+        <di:waypoint xsi:type="dc:Point" x="284" y="291" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="196" y="270" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1rwddob_di" bpmnElement="SequenceFlow_1rwddob">
+        <di:waypoint xsi:type="dc:Point" x="309" y="316" />
+        <di:waypoint xsi:type="dc:Point" x="309" y="416" />
+        <di:waypoint xsi:type="dc:Point" x="258" y="416" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="314" y="332" width="82" height="36" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1ucpl9y_di" bpmnElement="SequenceFlow_1ucpl9y">
+        <di:waypoint xsi:type="dc:Point" x="334" y="291" />
+        <di:waypoint xsi:type="dc:Point" x="423" y="291" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="290" y="270" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0ar5i7g_di" bpmnElement="SequenceFlow_0ar5i7g">
+        <di:waypoint xsi:type="dc:Point" x="523" y="291" />
+        <di:waypoint xsi:type="dc:Point" x="584" y="291" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="465" y="270" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1xeviwp_di" bpmnElement="SequenceFlow_1xeviwp">
+        <di:waypoint xsi:type="dc:Point" x="684" y="291" />
+        <di:waypoint xsi:type="dc:Point" x="750" y="291" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="628" y="270" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0s080ub_di" bpmnElement="SequenceFlow_0s080ub">
+        <di:waypoint xsi:type="dc:Point" x="775" y="266" />
+        <di:waypoint xsi:type="dc:Point" x="775" y="159" />
+        <di:waypoint xsi:type="dc:Point" x="823" y="159" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="700" y="208" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0p4v4z2_di" bpmnElement="SequenceFlow_0p4v4z2">
+        <di:waypoint xsi:type="dc:Point" x="775" y="316" />
+        <di:waypoint xsi:type="dc:Point" x="775" y="382" />
+        <di:waypoint xsi:type="dc:Point" x="823" y="382" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="700" y="344" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0zxixi4_di" bpmnElement="SequenceFlow_0zxixi4">
+        <di:waypoint xsi:type="dc:Point" x="923" y="159" />
+        <di:waypoint xsi:type="dc:Point" x="1025" y="159" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="929" y="138" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0obz0xv_di" bpmnElement="SequenceFlow_0obz0xv">
+        <di:waypoint xsi:type="dc:Point" x="1125" y="159" />
+        <di:waypoint xsi:type="dc:Point" x="1231" y="159" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1133" y="138" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Task_0z3btzz_di" bpmnElement="Task_0z3btzz">
+        <dc:Bounds x="1025" y="342" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1280ax3_di" bpmnElement="SequenceFlow_1280ax3">
+        <di:waypoint xsi:type="dc:Point" x="1143" y="382" />
+        <di:waypoint xsi:type="dc:Point" x="1231" y="382" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1142" y="361" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1cq427i_di" bpmnElement="SequenceFlow_1cq427i">
+        <di:waypoint xsi:type="dc:Point" x="923" y="382" />
+        <di:waypoint xsi:type="dc:Point" x="1025" y="382" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="929" y="361" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0441k18_di" bpmnElement="SequenceFlow_0441k18">
+        <di:waypoint xsi:type="dc:Point" x="1075" y="422" />
+        <di:waypoint xsi:type="dc:Point" x="1075" y="574" />
+        <di:waypoint xsi:type="dc:Point" x="634" y="574" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1045" y="492" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_19xhl1a_di" bpmnElement="SequenceFlow_19xhl1a">
+        <di:waypoint xsi:type="dc:Point" x="158" y="416" />
+        <di:waypoint xsi:type="dc:Point" x="124" y="416" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="96" y="395" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="SendTask_13mhkd4_di" bpmnElement="Task_0ejr4pv">
+        <dc:Bounds x="158" y="376" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0rflism_di" bpmnElement="SequenceFlow_0rflism">
+        <di:waypoint xsi:type="dc:Point" x="24" y="416" />
+        <di:waypoint xsi:type="dc:Point" x="-9" y="416" />
+        <di:waypoint xsi:type="dc:Point" x="-9" y="316" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="-37.5" y="395" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ReceiveTask_0hxnugy_di" bpmnElement="Task_14xyc1v">
+        <dc:Bounds x="24" y="376" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BoundaryEvent_07rm4ip_di" bpmnElement="BoundaryEvent_0ysr33s">
+        <dc:Bounds x="1107" y="364" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1135" y="394" width="56" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1gklgse_di" bpmnElement="SequenceFlow_1gklgse">
+        <di:waypoint xsi:type="dc:Point" x="598" y="574" />
+        <di:waypoint xsi:type="dc:Point" x="-9" y="574" />
+        <di:waypoint xsi:type="dc:Point" x="-9" y="316" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="249.5" y="553" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="IntermediateCatchEvent_1tw0mwg_di" bpmnElement="IntermediateThrowEvent_02rgl50">
+        <dc:Bounds x="598" y="556" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="586" y="596" width="60" height="36" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+  <bsim:zoneOffset>+01:00</bsim:zoneOffset>
+  <bsim:resourceData>
+    <bsim:dynamicResource id="Customer_Care" defaultQuantity="5" defaultCost="15.0" defaultTimeUnit="HOURS" defaultTimetableId="Default" />
+    <bsim:dynamicResource id="Manager" defaultQuantity="1" defaultCost="20.0" defaultTimeUnit="HOURS" defaultTimetableId="Default" />
+    <bsim:dynamicResource id="Student" name="master student" defaultQuantity="5" defaultCost="10" defaultTimeUnit="MINUTES" defaultTimetableId="Student_Normal">
+      <bsim:instance name="Anna" timetableId="Student_Hero" cost="20" />
+      <bsim:instance name="Bernd" timetableId="Student_Normal"/>
+      <bsim:instance name="Christian" timetableId="Student_Normal"/>
+      <bsim:instance name="Dieter" timetableId="Student_Lazy" cost="5"/>
+      <bsim:instance name="Eva" timetableId="Student_Lazy" cost="5"/>
+      <!-- advanced resource management TODO -->
+    </bsim:dynamicResource>
+    <bsim:dynamicResource id="Professor" name="professor abc" defaultQuantity="2" defaultCost="50" defaultTimetableId="Prof_Busy" defaultTimeUnit="MINUTES">
+      <!-- advanced resource management TODO -->
+      <bsim:instance name="Franz" cost="100"/>
+      <bsim:instance name="Gerd" timetableId="Prof_Busy"/>
+    </bsim:dynamicResource>
+  </bsim:resourceData>
+  <bsim:timetables>
+    <bsim:timetable id="Default">
+      <bsim:timetableItem from="MONDAY" to="MONDAY" beginTime="09:00" endTime="17:00" />
+      <bsim:timetableItem from="TUESDAY" to="TUESDAY" beginTime="09:00" endTime="17:00" />
+      <bsim:timetableItem from="WEDNESDAY" to="WEDNESDAY" beginTime="09:00" endTime="17:00" />
+      <bsim:timetableItem from="THURSDAY" to="THURSDAY" beginTime="09:00" endTime="17:00" />
+      <bsim:timetableItem from="FRIDAY" to="FRIDAY" beginTime="09:00" endTime="17:00" />
+    </bsim:timetable>
+    <bsim:timetable id="Student_Hero">
+      <bsim:timetableItem from="MONDAY" to="SUNDAY" beginTime="09:00:00" endTime="17:00:00"/>
+    </bsim:timetable>
+    <bsim:timetable id="Student_Normal">
+      <bsim:timetableItem from="MONDAY" to="FRIDAY" beginTime="09:00:00" endTime="17:00:00"/>
+    </bsim:timetable>
+    <bsim:timetable id="Student_Lazy">
+      <bsim:timetableItem from="MONDAY" to="WEDNESDAY" beginTime="09:00:00" endTime="13:00:00"/>
+      <bsim:timetableItem from="THURSDAY" to="FRIDAY" beginTime="17:00:00" endTime="19:00:00"/>
+    </bsim:timetable>
+    <bsim:timetable id="Prof_Busy">
+      <bsim:timetableItem from="MONDAY" to="FRIDAY" beginTime="07:00:00" endTime="09:00:00"/>
+    </bsim:timetable>
+  </bsim:timetables>
+  <bsim:simulationConfiguration id="Kreditkarte_sim_1" startDateTime="2017-10-01T09:00+01:00" processRef="Process_1" processInstances="200">
+
+    <bsim:Task id="UserTask_07b7vqr" name="Check Completeness">
+
+      <bsim:duration timeUnit="MINUTES">
+        <bsim:exponentialDistribution>
+          <bsim:mean>15</bsim:mean>
+        </bsim:exponentialDistribution>
+      </bsim:duration>
+      <bsim:resources>
+        <bsim:resource id="Customer_Care" amount="1" />
+      </bsim:resources>
+    </bsim:Task>
+
+    <bsim:exclusiveGateway id="ExclusiveGateway_0fdiprc">
+      <bsim:outgoingSequenceFlow id="SequenceFlow_1rwddob">
+        <bsim:branchingProbability>0.2</bsim:branchingProbability>
+      </bsim:outgoingSequenceFlow>
+      <bsim:outgoingSequenceFlow id="SequenceFlow_1ucpl9y">
+        <bsim:branchingProbability>0.8</bsim:branchingProbability>
+      </bsim:outgoingSequenceFlow>
+    </bsim:exclusiveGateway>
+
+    <bsim:Task id="Task_0ejr4pv" name="Information is requested">
+      <bsim:duration timeUnit="SECONDS">
+        <bsim:exponentialDistribution>
+          <bsim:mean>60</bsim:mean>
+        </bsim:exponentialDistribution>
+      </bsim:duration>
+      <bsim:resources/>
+    </bsim:Task>
+
+    <bsim:Task id="Task_14xyc1v" name="Received Missing Information">
+      <bsim:duration timeUnit="HOURS">
+        <bsim:constantDistribution>
+          <bsim:constantValue>48</bsim:constantValue>
+        </bsim:constantDistribution>
+      </bsim:duration>
+      <bsim:resources/>
+    </bsim:Task>
+
+    <bsim:Task id="UserTask_1jdy2bz" name="Request further Information">
+      <bsim:duration timeUnit="HOURS">
+        <bsim:constantDistribution>
+          <bsim:constantValue>2</bsim:constantValue>
+        </bsim:constantDistribution>
+      </bsim:duration>
+      <bsim:resources>
+        <bsim:resource id="Customer_Care" amount="1" />
+      </bsim:resources>
+    </bsim:Task>
+
+    <bsim:Task id="UserTask_12gn4u1" name="Check Application">
+      <bsim:duration timeUnit="MINUTES">
+        <bsim:constantDistribution>
+          <bsim:constantValue>60</bsim:constantValue>
+        </bsim:constantDistribution>
+      </bsim:duration>
+      <bsim:resources>
+        <bsim:resource id="Manager" amount="1" />
+      </bsim:resources>
+    </bsim:Task>
+
+    <bsim:exclusiveGateway id="ExclusiveGateway_1njun59">
+      <bsim:outgoingSequenceFlow id="SequenceFlow_0s080ub">
+        <bsim:branchingProbability>0.6</bsim:branchingProbability>
+      </bsim:outgoingSequenceFlow>
+      <bsim:outgoingSequenceFlow id="SequenceFlow_0p4v4z2">
+        <bsim:branchingProbability>0.4</bsim:branchingProbability>
+      </bsim:outgoingSequenceFlow>
+    </bsim:exclusiveGateway>
+
+    <bsim:Task id="SendTask_05lxxlm" name="Send Acceptance Proposal">
+      <bsim:duration timeUnit="SECONDS">
+        <bsim:exponentialDistribution>
+          <bsim:mean>60</bsim:mean>
+        </bsim:exponentialDistribution>
+      </bsim:duration>
+      <bsim:resources />
+    </bsim:Task>
+
+    <bsim:Task id="SendTask_1ens7cx" name="Send Credit Card">
+      <bsim:duration timeUnit="SECONDS">
+        <bsim:exponentialDistribution>
+          <bsim:mean>60</bsim:mean>
+        </bsim:exponentialDistribution>
+      </bsim:duration>
+      <bsim:resources />
+    </bsim:Task>
+
+    <bsim:Task id="SendTask_060ap9q" name="Send Rejection Notification">
+      <bsim:duration timeUnit="SECONDS">
+        <bsim:exponentialDistribution>
+          <bsim:mean>60</bsim:mean>
+        </bsim:exponentialDistribution>
+      </bsim:duration>
+      <bsim:resources />
+    </bsim:Task>
+
+    <bsim:Task id="Task_0z3btzz" name="Wait">
+      <bsim:duration timeUnit="MINUTES">
+        <bsim:arbitraryFiniteProbabilityDistribution>
+          <bsim:entry value="8" frequency="1"/>
+          <bsim:entry value="12" frequency="1"/>
+          <bsim:entry value="160" frequency="1"/>
+        </bsim:arbitraryFiniteProbabilityDistribution>
+      </bsim:duration>
+      <bsim:resources />
+      <bsim:boundaryEvents>
+        <bsim:boundaryEvent id="BoundaryEvent_0ysr33s" name="Rejection">
+          <bsim:eventProbability>1.0</bsim:eventProbability>
+          <bsim:arrivalRate timeUnit="MINUTES">
+            <bsim:constantDistribution>
+              <bsim:constantValue>20</bsim:constantValue>
+            </bsim:constantDistribution>
+          </bsim:arrivalRate>
+        </bsim:boundaryEvent>
+      </bsim:boundaryEvents>
+    </bsim:Task>
+
+    <bsim:startEvent id="StartEvent_1vcwaly">
+      <bpmn:extensionElements>
+        <abpr:properties>
+          <abpr:property id="a" value="asfasdf" />
+
+        </abpr:properties>
+
+      </bpmn:extensionElements>
+      <bsim:arrivalRate timeUnit="HOURS">
+        <bsim:constantDistribution>
+          <bsim:constantValue>0.5</bsim:constantValue>
+        </bsim:constantDistribution>
+      </bsim:arrivalRate>
+    </bsim:startEvent>
+
+    <bsim:catchEvent id="IntermediateThrowEvent_02rgl50">
+
+      <bsim:arrivalRate timeUnit="DAYS">
+        <bsim:constantDistribution>
+          <bsim:constantValue>2</bsim:constantValue>
+        </bsim:constantDistribution>
+      </bsim:arrivalRate>
+    </bsim:catchEvent>
+
+    <bsim:dataObject id="DO1" name="Discount">
+      <bsim:field name="Type" type="long">
+        <bsim:arbitraryFiniteProbabilityDistribution>
+          <bsim:entry value="25" frequency="0.8"></bsim:entry>
+          <bsim:entry value="50" frequency="0.2"></bsim:entry>
+        </bsim:arbitraryFiniteProbabilityDistribution>
+      </bsim:field>
+      <bsim:field name="Points" type="long">
+        <bsim:normalDistribution>
+          <bsim:mean>950</bsim:mean>
+          <bsim:standardDeviation>200</bsim:standardDeviation>
+        </bsim:normalDistribution>
+      </bsim:field>
+    </bsim:dataObject>
+
+  </bsim:simulationConfiguration>
+</bpmn:definitions>

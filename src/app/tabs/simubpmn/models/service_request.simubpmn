@@ -1,0 +1,792 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bsim="http://bsim.hpi.uni-potsdam.de/scylla/simModel" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="Dev">
+  <bpmn:process id="Process_12524sa" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="Start">
+      <bpmn:outgoing>Flow_0z8mwgb</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0z8mwgb" sourceRef="StartEvent_1" targetRef="Activity_0v155hv" />
+    <bpmn:task id="Activity_1sbg6hk" name="Register request">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="request" />
+          <camunda:inputParameter name="custinfo" />
+          <camunda:outputParameter name="custfile" />
+          <camunda:outputParameter name="notif" />
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_101qhpc</bpmn:incoming>
+      <bpmn:outgoing>Flow_1pqcsba</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_101qhpc" sourceRef="Activity_0v155hv" targetRef="Activity_1sbg6hk" />
+    <bpmn:sequenceFlow id="Flow_1pqcsba" sourceRef="Activity_1sbg6hk" targetRef="Activity_0vhcup2" />
+    <bpmn:sequenceFlow id="Flow_01gd2id" sourceRef="Activity_0vhcup2" targetRef="Activity_04hjcob" />
+    <bpmn:task id="Activity_193znjy" name="Evaluate urgency">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="notif" />
+          <camunda:inputParameter name="approv" />
+          <camunda:outputParameter name="urgent" />
+          <camunda:outputParameter name="slist" />
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0ty1ekc</bpmn:incoming>
+      <bpmn:outgoing>Flow_0uwmmxf</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_0ty1ekc" sourceRef="Activity_04hjcob" targetRef="Activity_193znjy" />
+    <bpmn:exclusiveGateway id="Gateway_0c6atyb" name="is urgent?">
+      <bpmn:incoming>Flow_0uwmmxf</bpmn:incoming>
+      <bpmn:outgoing>Flow_0yxr1as</bpmn:outgoing>
+      <bpmn:outgoing>Flow_00tpk3v</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0uwmmxf" sourceRef="Activity_193znjy" targetRef="Gateway_0c6atyb" />
+    <bpmn:task id="Activity_0dd5tkd" name="Call supplier">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="approv" />
+          <camunda:inputParameter name="urgent" />
+          <camunda:inputParameter name="slist" />
+          <camunda:outputParameter name="ext" />
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0yxr1as</bpmn:incoming>
+      <bpmn:outgoing>Flow_1elmz8f</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_0yxr1as" name="Urgent" sourceRef="Gateway_0c6atyb" targetRef="Activity_0dd5tkd" />
+    <bpmn:task id="Activity_0c8l8nu" name="Evaluate supplier">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="approv" />
+          <camunda:inputParameter name="slist" />
+          <camunda:outputParameter name="pref" />
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_00tpk3v</bpmn:incoming>
+      <bpmn:outgoing>Flow_11g61hk</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_00tpk3v" name="Not urgent" sourceRef="Gateway_0c6atyb" targetRef="Activity_0c8l8nu" />
+    <bpmn:exclusiveGateway id="Gateway_0mh9gp6" name="Is preferred supplier?">
+      <bpmn:incoming>Flow_11g61hk</bpmn:incoming>
+      <bpmn:outgoing>Flow_0u6aohh</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1nlkbeh</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_11g61hk" sourceRef="Activity_0c8l8nu" targetRef="Gateway_0mh9gp6" />
+    <bpmn:task id="Activity_1xtt3zw" name="Evaluate contract">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="approv" />
+          <camunda:inputParameter name="pref" />
+          <camunda:outputParameter name="contract" />
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0u6aohh</bpmn:incoming>
+      <bpmn:outgoing>Flow_0xoqbwj</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_0u6aohh" name="Preferred" sourceRef="Gateway_0mh9gp6" targetRef="Activity_1xtt3zw" />
+    <bpmn:task id="Activity_11zmy18" name="Copy service">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="approv" />
+          <camunda:inputParameter name="urgent" />
+          <camunda:outputParameter name="job" />
+          <camunda:outputParameter name="porder" />
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1nlkbeh</bpmn:incoming>
+      <bpmn:outgoing>Flow_17k30r5</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_1nlkbeh" sourceRef="Gateway_0mh9gp6" targetRef="Activity_11zmy18" />
+    <bpmn:task id="Activity_055kuc9" name="Enforce">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="approv" />
+          <camunda:inputParameter name="job" />
+          <camunda:inputParameter name="porder" />
+          <camunda:outputParameter name="worder" />
+          <camunda:outputParameter name="invoice" />
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_17k30r5</bpmn:incoming>
+      <bpmn:outgoing>Flow_181949h</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_17k30r5" sourceRef="Activity_11zmy18" targetRef="Activity_055kuc9" />
+    <bpmn:sequenceFlow id="Flow_181949h" sourceRef="Activity_055kuc9" targetRef="Gateway_10nyxgo" />
+    <bpmn:parallelGateway id="Gateway_10nyxgo">
+      <bpmn:incoming>Flow_181949h</bpmn:incoming>
+      <bpmn:outgoing>Flow_0fg1h2k</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1sh33ov</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:task id="Activity_0zn0no0" name="Work done2">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="job" />
+          <camunda:inputParameter name="worder" />
+          <camunda:outputParameter name="rep2" />
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0fg1h2k</bpmn:incoming>
+      <bpmn:outgoing>Flow_1jwd29y</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_0fg1h2k" sourceRef="Gateway_10nyxgo" targetRef="Activity_0zn0no0" />
+    <bpmn:sequenceFlow id="Flow_1sh33ov" sourceRef="Gateway_10nyxgo" targetRef="Activity_0tp0xsc" />
+    <bpmn:sequenceFlow id="Flow_1jwd29y" sourceRef="Activity_0zn0no0" targetRef="Activity_1iu7qe2" />
+    <bpmn:task id="Activity_01dhmvb" name="Confirm work done2">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="job" />
+          <camunda:inputParameter name="approv" />
+          <camunda:outputParameter name="conf2" />
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0o4mxfx</bpmn:incoming>
+      <bpmn:outgoing>Flow_1mx98yq</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_0o4mxfx" sourceRef="Activity_1iu7qe2" targetRef="Activity_01dhmvb" />
+    <bpmn:sequenceFlow id="Flow_1mx98yq" sourceRef="Activity_01dhmvb" targetRef="Gateway_0ky1i1q" />
+    <bpmn:parallelGateway id="Gateway_0ky1i1q">
+      <bpmn:incoming>Flow_1mx98yq</bpmn:incoming>
+      <bpmn:incoming>Flow_1i2sq9w</bpmn:incoming>
+      <bpmn:outgoing>Flow_0moavtm</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:sequenceFlow id="Flow_1i2sq9w" sourceRef="Activity_0tp0xsc" targetRef="Gateway_0ky1i1q" />
+    <bpmn:task id="Activity_1lfhogd" name="Pay request">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="conf2" />
+          <camunda:inputParameter name="payreq" />
+          <camunda:outputParameter name="receipt" />
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0moavtm</bpmn:incoming>
+      <bpmn:outgoing>Flow_0554cvp</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_0moavtm" sourceRef="Gateway_0ky1i1q" targetRef="Activity_1lfhogd" />
+    <bpmn:task id="Activity_0yqi8i6" name="Schedule supplier">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="approv" />
+          <camunda:inputParameter name="pref" />
+          <camunda:outputParameter name="order" />
+          <camunda:outputParameter name="sched" />
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0xoqbwj</bpmn:incoming>
+      <bpmn:outgoing>Flow_025ms13</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_0xoqbwj" sourceRef="Activity_1xtt3zw" targetRef="Activity_0yqi8i6" />
+    <bpmn:task id="Activity_03ab0ta" name="Work done1">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="approv" />
+          <camunda:outputParameter name="rep1" />
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_036ic57</bpmn:incoming>
+      <bpmn:outgoing>Flow_10n0c8k</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_10n0c8k" sourceRef="Activity_03ab0ta" targetRef="Activity_1x94bz2" />
+    <bpmn:task id="Activity_0hws68c" name="Confirm work done1">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="approv" />
+          <camunda:outputParameter name="conf1" />
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0cyqnnz</bpmn:incoming>
+      <bpmn:outgoing>Flow_0uqer75</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_0cyqnnz" sourceRef="Activity_1x94bz2" targetRef="Activity_0hws68c" />
+    <bpmn:exclusiveGateway id="Gateway_17wwmjc">
+      <bpmn:incoming>Flow_025ms13</bpmn:incoming>
+      <bpmn:incoming>Flow_1elmz8f</bpmn:incoming>
+      <bpmn:outgoing>Flow_036ic57</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_025ms13" sourceRef="Activity_0yqi8i6" targetRef="Gateway_17wwmjc" />
+    <bpmn:sequenceFlow id="Flow_036ic57" sourceRef="Gateway_17wwmjc" targetRef="Activity_03ab0ta" />
+    <bpmn:sequenceFlow id="Flow_1elmz8f" sourceRef="Activity_0dd5tkd" targetRef="Gateway_17wwmjc" />
+    <bpmn:exclusiveGateway id="Gateway_09z7u36">
+      <bpmn:incoming>Flow_0554cvp</bpmn:incoming>
+      <bpmn:incoming>Flow_0uqer75</bpmn:incoming>
+      <bpmn:outgoing>Flow_1wvnuax</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0554cvp" sourceRef="Activity_1lfhogd" targetRef="Gateway_09z7u36" />
+    <bpmn:sequenceFlow id="Flow_0uqer75" sourceRef="Activity_0hws68c" targetRef="Gateway_09z7u36" />
+    <bpmn:task id="Activity_0rcrka7" name="Close request">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="custfile" />
+          <camunda:inputParameter name="approv" />
+          <camunda:outputParameter name="history" />
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1wvnuax</bpmn:incoming>
+      <bpmn:outgoing>Flow_0it36j6</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_1wvnuax" sourceRef="Gateway_09z7u36" targetRef="Activity_0rcrka7" />
+    <bpmn:endEvent id="Event_1uwl589" name="End">
+      <bpmn:incoming>Flow_0it36j6</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0it36j6" sourceRef="Activity_0rcrka7" targetRef="Event_1uwl589" />
+    <bpmn:sendTask id="Activity_0vhcup2" name="Send notification">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="custinfo" />
+          <camunda:inputParameter name="notif" />
+          <camunda:outputParameter name="overview" />
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1pqcsba</bpmn:incoming>
+      <bpmn:outgoing>Flow_01gd2id</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:receiveTask id="Activity_0v155hv" name="Receive Request">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="request" />
+          <camunda:outputParameter name="custinfo" />
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0z8mwgb</bpmn:incoming>
+      <bpmn:outgoing>Flow_101qhpc</bpmn:outgoing>
+    </bpmn:receiveTask>
+    <bpmn:receiveTask id="Activity_04hjcob" name="Receive notification">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="custinfo" />
+          <camunda:inputParameter name="overview" />
+          <camunda:outputParameter name="approv" />
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_01gd2id</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ty1ekc</bpmn:outgoing>
+    </bpmn:receiveTask>
+    <bpmn:receiveTask id="Activity_0tp0xsc" name="Receive invoice">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="invoice" />
+          <camunda:outputParameter name="payreq" />
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1sh33ov</bpmn:incoming>
+      <bpmn:outgoing>Flow_1i2sq9w</bpmn:outgoing>
+    </bpmn:receiveTask>
+    <bpmn:sendTask id="Activity_1iu7qe2" name="Send mail2">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="approv" />
+          <camunda:inputParameter name="custfile" />
+          <camunda:inputParameter name="rep2" />
+          <camunda:outputParameter name="mail2" />
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1jwd29y</bpmn:incoming>
+      <bpmn:outgoing>Flow_0o4mxfx</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:sendTask id="Activity_1x94bz2" name="Send mail1">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="rep1" />
+          <camunda:outputParameter name="mail1" />
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_10n0c8k</bpmn:incoming>
+      <bpmn:outgoing>Flow_0cyqnnz</bpmn:outgoing>
+    </bpmn:sendTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_12524sa">
+      <bpmndi:BPMNEdge id="Flow_0it36j6_di" bpmnElement="Flow_0it36j6">
+        <di:waypoint x="2730" y="310" />
+        <di:waypoint x="2782" y="310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1wvnuax_di" bpmnElement="Flow_1wvnuax">
+        <di:waypoint x="2565" y="310" />
+        <di:waypoint x="2630" y="310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0uqer75_di" bpmnElement="Flow_0uqer75">
+        <di:waypoint x="2380" y="190" />
+        <di:waypoint x="2540" y="190" />
+        <di:waypoint x="2540" y="285" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0554cvp_di" bpmnElement="Flow_0554cvp">
+        <di:waypoint x="2520" y="400" />
+        <di:waypoint x="2540" y="400" />
+        <di:waypoint x="2540" y="335" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1elmz8f_di" bpmnElement="Flow_1elmz8f">
+        <di:waypoint x="1490" y="90" />
+        <di:waypoint x="1810" y="90" />
+        <di:waypoint x="1810" y="165" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_036ic57_di" bpmnElement="Flow_036ic57">
+        <di:waypoint x="1835" y="190" />
+        <di:waypoint x="1940" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_025ms13_di" bpmnElement="Flow_025ms13">
+        <di:waypoint x="1740" y="290" />
+        <di:waypoint x="1810" y="290" />
+        <di:waypoint x="1810" y="215" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0cyqnnz_di" bpmnElement="Flow_0cyqnnz">
+        <di:waypoint x="2210" y="190" />
+        <di:waypoint x="2280" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10n0c8k_di" bpmnElement="Flow_10n0c8k">
+        <di:waypoint x="2040" y="190" />
+        <di:waypoint x="2110" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0xoqbwj_di" bpmnElement="Flow_0xoqbwj">
+        <di:waypoint x="1570" y="290" />
+        <di:waypoint x="1640" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0moavtm_di" bpmnElement="Flow_0moavtm">
+        <di:waypoint x="2395" y="400" />
+        <di:waypoint x="2420" y="400" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1i2sq9w_di" bpmnElement="Flow_1i2sq9w">
+        <di:waypoint x="1990" y="450" />
+        <di:waypoint x="2370" y="450" />
+        <di:waypoint x="2370" y="425" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1mx98yq_di" bpmnElement="Flow_1mx98yq">
+        <di:waypoint x="2310" y="340" />
+        <di:waypoint x="2370" y="340" />
+        <di:waypoint x="2370" y="375" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0o4mxfx_di" bpmnElement="Flow_0o4mxfx">
+        <di:waypoint x="2140" y="340" />
+        <di:waypoint x="2210" y="340" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1jwd29y_di" bpmnElement="Flow_1jwd29y">
+        <di:waypoint x="1990" y="340" />
+        <di:waypoint x="2040" y="340" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1sh33ov_di" bpmnElement="Flow_1sh33ov">
+        <di:waypoint x="1810" y="425" />
+        <di:waypoint x="1810" y="450" />
+        <di:waypoint x="1890" y="450" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0fg1h2k_di" bpmnElement="Flow_0fg1h2k">
+        <di:waypoint x="1810" y="375" />
+        <di:waypoint x="1810" y="340" />
+        <di:waypoint x="1890" y="340" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_181949h_di" bpmnElement="Flow_181949h">
+        <di:waypoint x="1740" y="400" />
+        <di:waypoint x="1785" y="400" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_17k30r5_di" bpmnElement="Flow_17k30r5">
+        <di:waypoint x="1570" y="400" />
+        <di:waypoint x="1640" y="400" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1nlkbeh_di" bpmnElement="Flow_1nlkbeh">
+        <di:waypoint x="1380" y="315" />
+        <di:waypoint x="1380" y="400" />
+        <di:waypoint x="1470" y="400" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0u6aohh_di" bpmnElement="Flow_0u6aohh">
+        <di:waypoint x="1405" y="290" />
+        <di:waypoint x="1470" y="290" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1414" y="272" width="47" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11g61hk_di" bpmnElement="Flow_11g61hk">
+        <di:waypoint x="1290" y="290" />
+        <di:waypoint x="1355" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_00tpk3v_di" bpmnElement="Flow_00tpk3v">
+        <di:waypoint x="1100" y="202" />
+        <di:waypoint x="1100" y="290" />
+        <di:waypoint x="1190" y="290" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1089" y="243" width="53" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0yxr1as_di" bpmnElement="Flow_0yxr1as">
+        <di:waypoint x="1100" y="152" />
+        <di:waypoint x="1100" y="90" />
+        <di:waypoint x="1390" y="90" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1231" y="72" width="34" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0uwmmxf_di" bpmnElement="Flow_0uwmmxf">
+        <di:waypoint x="1010" y="177" />
+        <di:waypoint x="1075" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ty1ekc_di" bpmnElement="Flow_0ty1ekc">
+        <di:waypoint x="850" y="177" />
+        <di:waypoint x="910" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_01gd2id_di" bpmnElement="Flow_01gd2id">
+        <di:waypoint x="690" y="177" />
+        <di:waypoint x="750" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1pqcsba_di" bpmnElement="Flow_1pqcsba">
+        <di:waypoint x="530" y="177" />
+        <di:waypoint x="590" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_101qhpc_di" bpmnElement="Flow_101qhpc">
+        <di:waypoint x="370" y="177" />
+        <di:waypoint x="430" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0z8mwgb_di" bpmnElement="Flow_0z8mwgb">
+        <di:waypoint x="215" y="177" />
+        <di:waypoint x="270" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="159" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="185" y="202" width="25" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1sbg6hk_di" bpmnElement="Activity_1sbg6hk">
+        <dc:Bounds x="430" y="137" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_193znjy_di" bpmnElement="Activity_193znjy">
+        <dc:Bounds x="910" y="137" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0c6atyb_di" bpmnElement="Gateway_0c6atyb" isMarkerVisible="true">
+        <dc:Bounds x="1075" y="152" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1134.5" y="170" width="49" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0dd5tkd_di" bpmnElement="Activity_0dd5tkd">
+        <dc:Bounds x="1390" y="50" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0c8l8nu_di" bpmnElement="Activity_0c8l8nu">
+        <dc:Bounds x="1190" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0mh9gp6_di" bpmnElement="Gateway_0mh9gp6" isMarkerVisible="true">
+        <dc:Bounds x="1355" y="265" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1351" y="227.5" width="57" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1xtt3zw_di" bpmnElement="Activity_1xtt3zw">
+        <dc:Bounds x="1470" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_11zmy18_di" bpmnElement="Activity_11zmy18">
+        <dc:Bounds x="1470" y="360" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_055kuc9_di" bpmnElement="Activity_055kuc9">
+        <dc:Bounds x="1640" y="360" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1bcm14a_di" bpmnElement="Gateway_10nyxgo">
+        <dc:Bounds x="1785" y="375" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0zn0no0_di" bpmnElement="Activity_0zn0no0">
+        <dc:Bounds x="1890" y="300" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_01dhmvb_di" bpmnElement="Activity_01dhmvb">
+        <dc:Bounds x="2210" y="300" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0a6olj4_di" bpmnElement="Gateway_0ky1i1q">
+        <dc:Bounds x="2345" y="375" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1lfhogd_di" bpmnElement="Activity_1lfhogd">
+        <dc:Bounds x="2420" y="360" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0yqi8i6_di" bpmnElement="Activity_0yqi8i6">
+        <dc:Bounds x="1640" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_03ab0ta_di" bpmnElement="Activity_03ab0ta">
+        <dc:Bounds x="1940" y="150" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0hws68c_di" bpmnElement="Activity_0hws68c">
+        <dc:Bounds x="2280" y="150" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_17wwmjc_di" bpmnElement="Gateway_17wwmjc" isMarkerVisible="true">
+        <dc:Bounds x="1785" y="165" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_09z7u36_di" bpmnElement="Gateway_09z7u36" isMarkerVisible="true">
+        <dc:Bounds x="2515" y="285" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0rcrka7_di" bpmnElement="Activity_0rcrka7">
+        <dc:Bounds x="2630" y="270" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1uwl589_di" bpmnElement="Event_1uwl589">
+        <dc:Bounds x="2782" y="292" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2790" y="335" width="20" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ragpq9_di" bpmnElement="Activity_0vhcup2">
+        <dc:Bounds x="590" y="137" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_17ca7de_di" bpmnElement="Activity_0v155hv">
+        <dc:Bounds x="270" y="137" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0xdf142_di" bpmnElement="Activity_04hjcob">
+        <dc:Bounds x="750" y="137" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_03ax0vc_di" bpmnElement="Activity_0tp0xsc">
+        <dc:Bounds x="1890" y="410" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_12e5p7b_di" bpmnElement="Activity_1iu7qe2">
+        <dc:Bounds x="2040" y="300" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_003i5lf_di" bpmnElement="Activity_1x94bz2">
+        <dc:Bounds x="2110" y="150" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+  <bsim:simulationConfiguration id="Kreditkarte_sim_1" processRef="Process_12524sa" processInstances="200" startDateTime="2017-10-01T09:00+01:00">
+    <bsim:startEvent id="StartEvent_1">
+      <bsim:arrivalRate timeUnit="MINUTES">
+        <bsim:exponentialDistribution>
+          <bsim:mean>100</bsim:mean>
+        </bsim:exponentialDistribution>
+      </bsim:arrivalRate>
+    </bsim:startEvent>
+    <bsim:Task id="Activity_1sbg6hk" name="Register request">
+      <bsim:resources>
+        <bsim:resource id="Employee" amount="1" />
+      </bsim:resources>
+      <bsim:duration timeUnit="MINUTES">
+        <bsim:normalDistribution>
+          <bsim:mean>10</bsim:mean>
+          <bsim:standardDeviation>1</bsim:standardDeviation>
+        </bsim:normalDistribution>
+      </bsim:duration>
+    </bsim:Task>
+    <bsim:Task id="Activity_193znjy" name="Evaluate urgency">
+      <bsim:resources>
+        <bsim:resource id="Employee" amount="1" />
+      </bsim:resources>
+      <bsim:duration timeUnit="MINUTES">
+        <bsim:uniformDistribution>
+          <bsim:lower>20</bsim:lower>
+          <bsim:upper>60</bsim:upper>
+        </bsim:uniformDistribution>
+      </bsim:duration>
+    </bsim:Task>
+    <bsim:Task id="Activity_0dd5tkd" name="Call supplier">
+      <bsim:resources>
+        <bsim:resource id="Employee" amount="1" />
+      </bsim:resources>
+      <bsim:duration timeUnit="MINUTES">
+        <bsim:normalDistribution>
+          <bsim:mean>10</bsim:mean>
+          <bsim:standardDeviation>5</bsim:standardDeviation>
+        </bsim:normalDistribution>
+      </bsim:duration>
+    </bsim:Task>
+    <bsim:Task id="Activity_0c8l8nu" name="Evaluate supplier">
+      <bsim:resources>
+        <bsim:resource id="Employee" amount="1" />
+      </bsim:resources>
+      <bsim:duration timeUnit="MINUTES">
+        <bsim:uniformDistribution>
+          <bsim:lower>20</bsim:lower>
+          <bsim:upper>60</bsim:upper>
+        </bsim:uniformDistribution>
+      </bsim:duration>
+    </bsim:Task>
+    <bsim:Task id="Activity_1xtt3zw" name="Evaluate contract">
+      <bsim:resources>
+        <bsim:resource id="Employee" amount="1" />
+      </bsim:resources>
+      <bsim:duration timeUnit="MINUTES">
+        <bsim:normalDistribution>
+          <bsim:mean>30</bsim:mean>
+          <bsim:standardDeviation>20</bsim:standardDeviation>
+        </bsim:normalDistribution>
+      </bsim:duration>
+    </bsim:Task>
+    <bsim:Task id="Activity_11zmy18" name="Copy service">
+      <bsim:resources>
+        <bsim:resource id="Employee" amount="1" />
+      </bsim:resources>
+      <bsim:duration timeUnit="MINUTES">
+        <bsim:normalDistribution>
+          <bsim:mean>5</bsim:mean>
+          <bsim:standardDeviation>1</bsim:standardDeviation>
+        </bsim:normalDistribution>
+      </bsim:duration>
+    </bsim:Task>
+    <bsim:Task id="Activity_055kuc9" name="Enforce">
+      <bsim:resources>
+        <bsim:resource id="Employee" amount="1" />
+      </bsim:resources>
+      <bsim:duration timeUnit="MINUTES">
+        <bsim:normalDistribution>
+          <bsim:mean>30</bsim:mean>
+          <bsim:standardDeviation>50</bsim:standardDeviation>
+        </bsim:normalDistribution>
+      </bsim:duration>
+    </bsim:Task>
+    <bsim:Task id="Activity_0zn0no0" name="Work done2">
+      <bsim:resources>
+        <bsim:resource id="Employee" amount="1" />
+      </bsim:resources>
+      <bsim:duration timeUnit="MINUTES">
+        <bsim:normalDistribution>
+          <bsim:mean>40</bsim:mean>
+          <bsim:standardDeviation>60</bsim:standardDeviation>
+        </bsim:normalDistribution>
+      </bsim:duration>
+    </bsim:Task>
+    <bsim:Task id="Activity_01dhmvb" name="Confirm work done2">
+      <bsim:resources>
+        <bsim:resource id="Employee" amount="1" />
+      </bsim:resources>
+      <bsim:duration timeUnit="MINUTES">
+        <bsim:normalDistribution>
+          <bsim:mean>20</bsim:mean>
+          <bsim:standardDeviation>20</bsim:standardDeviation>
+        </bsim:normalDistribution>
+      </bsim:duration>
+    </bsim:Task>
+    <bsim:Task id="Activity_1lfhogd" name="Pay request">
+      <bsim:resources>
+        <bsim:resource id="Employee" amount="1" />
+      </bsim:resources>
+      <bsim:duration timeUnit="MINUTES">
+        <bsim:normalDistribution>
+          <bsim:mean>20</bsim:mean>
+          <bsim:standardDeviation>20</bsim:standardDeviation>
+        </bsim:normalDistribution>
+      </bsim:duration>
+    </bsim:Task>
+    <bsim:Task id="Activity_0yqi8i6" name="Schedule supplier">
+      <bsim:resources>
+        <bsim:resource id="Planner" amount="1" />
+      </bsim:resources>
+      <bsim:duration timeUnit="MINUTES">
+        <bsim:normalDistribution>
+          <bsim:mean>30</bsim:mean>
+          <bsim:standardDeviation>20</bsim:standardDeviation>
+        </bsim:normalDistribution>
+      </bsim:duration>
+    </bsim:Task>
+    <bsim:Task id="Activity_03ab0ta" name="Work done1">
+      <bsim:resources>
+        <bsim:resource id="Employee" amount="1" />
+      </bsim:resources>
+      <bsim:duration timeUnit="MINUTES">
+        <bsim:normalDistribution>
+          <bsim:mean>20</bsim:mean>
+          <bsim:standardDeviation>20</bsim:standardDeviation>
+        </bsim:normalDistribution>
+      </bsim:duration>
+    </bsim:Task>
+    <bsim:Task id="Activity_0hws68c" name="Confirm work done1">
+      <bsim:resources>
+        <bsim:resource id="Employee" amount="1" />
+      </bsim:resources>
+      <bsim:duration timeUnit="MINUTES">
+        <bsim:normalDistribution>
+          <bsim:mean>50</bsim:mean>
+          <bsim:standardDeviation>1</bsim:standardDeviation>
+        </bsim:normalDistribution>
+      </bsim:duration>
+    </bsim:Task>
+    <bsim:Task id="Activity_0rcrka7" name="Close request">
+      <bsim:resources>
+        <bsim:resource id="Employee" amount="1" />
+      </bsim:resources>
+      <bsim:duration timeUnit="MINUTES">
+        <bsim:normalDistribution>
+          <bsim:mean>10</bsim:mean>
+          <bsim:standardDeviation>1</bsim:standardDeviation>
+        </bsim:normalDistribution>
+      </bsim:duration>
+    </bsim:Task>
+    <bsim:Task id="Activity_0vhcup2" name="Send notification">
+      <bsim:resources>
+        <bsim:resource id="Employee" amount="1" />
+      </bsim:resources>
+      <bsim:duration timeUnit="MINUTES">
+        <bsim:normalDistribution>
+          <bsim:mean>5</bsim:mean>
+          <bsim:standardDeviation>0.5</bsim:standardDeviation>
+        </bsim:normalDistribution>
+      </bsim:duration>
+    </bsim:Task>
+    <bsim:Task id="Activity_0v155hv" name="Receive Request">
+      <bsim:resources>
+        <bsim:resource id="Employee" amount="1" />
+      </bsim:resources>
+      <bsim:duration timeUnit="MINUTES">
+        <bsim:normalDistribution>
+          <bsim:mean>10</bsim:mean>
+          <bsim:standardDeviation>1</bsim:standardDeviation>
+        </bsim:normalDistribution>
+      </bsim:duration>
+    </bsim:Task>
+    <bsim:Task id="Activity_04hjcob" name="Receive notification">
+      <bsim:resources>
+        <bsim:resource id="Employee" amount="1" />
+      </bsim:resources>
+      <bsim:duration timeUnit="MINUTES">
+        <bsim:normalDistribution>
+          <bsim:mean>5</bsim:mean>
+          <bsim:standardDeviation>0.5</bsim:standardDeviation>
+        </bsim:normalDistribution>
+      </bsim:duration>
+    </bsim:Task>
+    <bsim:Task id="Activity_0tp0xsc" name="Receive invoice">
+      <bsim:resources>
+        <bsim:resource id="Employee" amount="1" />
+      </bsim:resources>
+      <bsim:duration timeUnit="MINUTES">
+        <bsim:normalDistribution>
+          <bsim:mean>50</bsim:mean>
+          <bsim:standardDeviation>50</bsim:standardDeviation>
+        </bsim:normalDistribution>
+      </bsim:duration>
+    </bsim:Task>
+    <bsim:Task id="Activity_1iu7qe2" name="Send mail2">
+      <bsim:resources />
+      <bsim:duration timeUnit="MINUTES">
+        <bsim:normalDistribution>
+          <bsim:mean>10</bsim:mean>
+          <bsim:standardDeviation>1</bsim:standardDeviation>
+        </bsim:normalDistribution>
+      </bsim:duration>
+    </bsim:Task>
+    <bsim:Task id="Activity_1x94bz2" name="Send mail1">
+      <bsim:resources />
+      <bsim:duration timeUnit="MINUTES">
+        <bsim:uniformDistribution>
+          <bsim:lower>40</bsim:lower>
+          <bsim:upper>80</bsim:upper>
+        </bsim:uniformDistribution>
+      </bsim:duration>
+    </bsim:Task>
+    <bsim:exclusiveGateway id="Gateway_0c6atyb" >
+      <bsim:outgoingSequenceFlow id="Flow_0yxr1as">
+        <bsim:branchingProbability>0.5</bsim:branchingProbability>
+      </bsim:outgoingSequenceFlow>
+      <bsim:outgoingSequenceFlow id="Flow_00tpk3v">
+        <bsim:branchingProbability>0.5</bsim:branchingProbability>
+      </bsim:outgoingSequenceFlow>
+    </bsim:exclusiveGateway>
+    <bsim:exclusiveGateway id="Gateway_0mh9gp6" >
+      <bsim:outgoingSequenceFlow id="Flow_0u6aohh">
+        <bsim:branchingProbability>0.5</bsim:branchingProbability>
+      </bsim:outgoingSequenceFlow>
+      <bsim:outgoingSequenceFlow id="Flow_1nlkbeh">
+        <bsim:branchingProbability>0.5</bsim:branchingProbability>
+      </bsim:outgoingSequenceFlow>
+    </bsim:exclusiveGateway>
+  </bsim:simulationConfiguration>
+  <bsim:randomSeed>234234234</bsim:randomSeed>
+  <bsim:zoneOffset>+01:00</bsim:zoneOffset>
+  <bsim:timetables>
+    <bsim:timetable id="Default">
+      <bsim:timetableItem from="MONDAY" to="MONDAY" beginTime="09:00" endTime="17:00" />
+      <bsim:timetableItem from="TUESDAY" to="TUESDAY" beginTime="09:00" endTime="17:00" />
+      <bsim:timetableItem from="WEDNESDAY" to="WEDNESDAY" beginTime="09:00" endTime="17:00" />
+      <bsim:timetableItem from="THURSDAY" to="THURSDAY" beginTime="09:00" endTime="17:00" />
+      <bsim:timetableItem from="FRIDAY" to="FRIDAY" beginTime="09:00" endTime="17:00" />
+    </bsim:timetable>
+  </bsim:timetables>
+  <bsim:resourceData>
+    <bsim:dynamicResource id="Employee" defaultQuantity="12" defaultTimetableId="Default" defaultCost="20" defaultTimeUnit="HOURS" />
+    <bsim:dynamicResource id="Employee_B" defaultQuantity="6" defaultTimetableId="Default" defaultCost="10" defaultTimeUnit="HOURS" />
+    <bsim:dynamicResource id="Planner" defaultQuantity="1" defaultTimetableId="Default" defaultCost="40" defaultTimeUnit="HOURS" />
+  </bsim:resourceData>
+  <bsim:resourceAssignmentOrder>simulationTime</bsim:resourceAssignmentOrder>
+</bpmn:definitions>

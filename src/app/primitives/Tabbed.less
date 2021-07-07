@@ -1,0 +1,184 @@
+.tab-base() {
+  border: solid 1px var(--color-dddddd);
+  position: relative;
+  flex: 1;
+}
+
+:local(.TabContainer) {
+  position: relative;
+
+  display: flex;
+  flex: 1;
+
+  &.tab {
+    .tab-base();
+  }
+}
+
+:local(.LinksContainer) {
+  display: flex;
+  flex: initial;
+  flex-shrink: 0;
+
+  position: relative;
+  z-index: 100;
+
+  overflow: hidden;
+
+  .tabs-container {
+    order: 0;
+
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .scroll-tabs-button {
+    flex: initial;
+    box-sizing: border-box;
+
+    padding: 0 5px;
+    margin: 0;
+    position: relative;
+    top: 3px;
+    cursor: pointer;
+    font-size: 16px;
+
+    &.scroll-tabs-left {
+      order: -1;
+    }
+
+    &.scroll-tabs-right {
+      order: 1;
+    }
+  }
+
+  &.scroll-tabs-overflow {
+    .ignore {
+      display: none;
+    }
+  }
+
+  &:not(.scroll-tabs-overflow) {
+    .scroll-tabs-button {
+      display: none;
+    }
+  }
+
+  .tab {
+    position: relative;
+    display: inline-block;
+    min-width: 30px;
+    margin-right: 5px;
+    padding: 6px 9px;
+    text-align: center;
+    border: solid 1px var(--color-dddddd);
+    color: var(--color-444444);
+
+    background: #fff;
+    cursor: default;
+
+    position: relative;
+    user-select: none;
+
+    background: var(--color-f6f6f6);
+
+    &:hover,
+    &.active {
+      background: var(--color-ffffff);
+    }
+
+    &.active:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      z-index: 5;
+    }
+
+  }
+
+  &.primary {
+    margin-bottom: -1px;
+
+    .tab {
+      border-radius: 2px 2px 0 0;
+      margin-bottom: -1px;
+      border-bottom: solid 2px var(--color-dddddd);
+
+      &.active {
+        border-top: solid 3px var(--blue-base-65);
+        border-radius: 3px 3px 0 0;
+
+        &:before {
+          bottom: -2px;
+          border-bottom: solid 3px var(--color-ffffff);
+        }
+      }
+    }
+  }
+
+  &.secondary {
+    position: absolute;
+    bottom: 0;
+    margin-bottom: -23px;
+    z-index: 100;
+
+    .tab {
+      border-radius: 0 0 2px 2px;
+      padding: 4px 8px;
+      margin-top: -1px;
+      border-top: solid 2px var(--color-dddddd);
+
+      &:first-child {
+        margin-left: 10px;
+      }
+
+      &.active {
+        &:before {
+          top: -2px;
+          border-top: solid 3px var(--color-ffffff);
+        }
+      }
+    }
+  }
+
+  .close {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0 2px;
+    margin-left: 3px;
+
+    font-size: 18px;
+    line-height: 9px;
+    vertical-align: middle;
+    width: 13px;
+
+    &:before {
+      content: '×';
+    }
+
+    &:hover {
+      color: var(--blue-darken-48);
+    }
+  }
+
+
+  .tab.dirty .close {
+
+    &:not(:hover) {
+      color: var(--silver-darken-80);
+      margin-top: -3px;
+      padding: 0;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    &:not(:hover):before {
+      content: '○';
+    }
+  }
+}
+
+:local(.Tab) {
+  .tab-base();
+}
