@@ -40,14 +40,15 @@ npm install
 npm run start
 ```
 
+In order to execute the simulation experiments, a web service is required that is per default hard coded in the sources and available at https://abpr.dtdi.de/. 
+
 ## Built with
 
 * [Camunda Modeler](https://github.com/camunda/camunda-modeler) - An integrated modeling solution for BPMN and DMN based on bpmn.io.
-* [Scylla](https://github.com/bptlab/scylla) - An extensible BPMN process simulator
 * [Fluent UI](https://github.com/microsoft/fluentui) -  A collection of utilities, React components, and web components for building web applications.
-* And further dependencies as detailed in [THIRD_PARTY_NOTICES](https://github.com/dtdi/assisted-bpr-modeler/blob/main/THIRD_PARTY_LICENSES)
+* And further dependencies as detailed in [THIRD_PARTY_NOTICES](https://github.com/dtdi/assisted-bpr-modeler/blob/main/THIRD_PARTY_NOTICES)
 
-## TODO
+Makes use of [Scylla](https://github.com/bptlab/scylla), an extensible BPMN process simulator. 
 
 
 ## Contact
