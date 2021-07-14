@@ -29,7 +29,7 @@ The procedure starts over allowing for an iterative improvement of the process m
 
 ## Run the tool
 
-The protype is available for demonstration under https://dtdi.de/abpr/ 
+The protype is available for demonstration under https://dtdi.de/abpr/demo 
 
 ## Install and Start the Application
 
