@@ -31,6 +31,10 @@ The procedure starts over allowing for an iterative improvement of the process m
 
 The protype is available for demonstration under https://dtdi.de/abpr/demo 
 
+A demonstration video is provided here:
+
+[![Assisted Business Process Redesign Modeler - Demo](https://user-images.githubusercontent.com/922917/125797093-c36d0b6e-1cc5-45bf-8d0b-ecc9b45a59a6.png)](https://www.youtube.com/watch?v=VqrHj7RaFXQ)
+
 ## Install and Start the Application
 
 Start the app in a Posix environment. On Windows that is Git Bash or WSL. Make sure you have installed all the [necessary tools](https://github.com/nodejs/node-gyp#installation) to install and compile Node.js C++ addons.
@@ -56,7 +60,7 @@ Makes use of [Scylla](https://github.com/bptlab/scylla), an extensible BPMN proc
 
 ## Contact
 
-
+- Tobias Fehrer ([@dtdi](https://twitter.com/dtdi_), [LinkedIn](https://www.linkedin.com/in/tobiasfehrer/))
 
 ## [License](https://github.com/dtdi/assisted-bpr-modeler/blob/master/LICENSE)
 
