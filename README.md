@@ -61,7 +61,3 @@ Makes use of [Scylla](https://github.com/bptlab/scylla), an extensible BPMN proc
 ## Contact
 
 - Tobias Fehrer ([@dtdi](https://twitter.com/dtdi_), [LinkedIn](https://www.linkedin.com/in/tobiasfehrer/))
-
-## [License](https://github.com/dtdi/assisted-bpr-modeler/blob/master/LICENSE)
-
-tbd
