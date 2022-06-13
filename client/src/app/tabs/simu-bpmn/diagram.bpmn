@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:bsim="http://bsim.hpi.uni-potsdam.de/scylla/simModel" xmlns:abpr="http://github.com/dtdi/dtdi" xmlns:bsimapi="http://github.com/dtdi/bsimapi" id="Definitions_{{ ID }}" targetNamespace="http://bpmn.io/schema/bpmn" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" exporter="{{ EXPORTER_NAME }}" exporterVersion="{{ EXPORTER_VERSION }}" modeler:executionPlatform="aBPR" modeler:executionPlatformVersion="1.0.0">
+  <bsim:randomSeed>234234234</bsim:randomSeed>
+  <bsim:resourceAssignmentOrder>simulationTime</bsim:resourceAssignmentOrder>
+  <bpmn:process id="Process_{{ ID:process }}" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_{{ ID:process }}">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="159" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+  <bsim:zoneOffset>+01:00</bsim:zoneOffset>
+  <bsim:resourceData>
+    <bsim:dynamicResource id="Customer_Care" defaultQuantity="5" defaultCost="15.0" defaultTimeUnit="HOURS" defaultTimetableId="Default" />
+    <bsim:dynamicResource id="Manager" defaultQuantity="1" defaultCost="20.0" defaultTimeUnit="HOURS" defaultTimetableId="Default" />
+    <bsim:dynamicResource id="Student" name="master student" defaultQuantity="5" defaultCost="10" defaultTimeUnit="MINUTES" defaultTimetableId="Student_Normal">
+      <bsim:instance name="Anna" timetableId="Student_Hero" cost="20" />
+      <bsim:instance name="Bernd" timetableId="Student_Normal" />
+      <bsim:instance name="Christian" timetableId="Student_Normal" />
+      <bsim:instance name="Dieter" timetableId="Student_Lazy" cost="5" />
+      <bsim:instance name="Eva" timetableId="Student_Lazy" cost="5" />
+      <!-- advanced resource management TODO -->
+    </bsim:dynamicResource>
+    <bsim:dynamicResource id="Professor" name="professor abc" defaultQuantity="2" defaultCost="50" defaultTimetableId="Prof_Busy" defaultTimeUnit="MINUTES">
+      <!-- advanced resource management TODO -->
+      <bsim:instance name="Franz" cost="100" />
+      <bsim:instance name="Gerd" timetableId="Prof_Busy" />
+    </bsim:dynamicResource>
+  </bsim:resourceData>
+  <bsim:timetables>
+    <bsim:timetable id="Default">
+      <bsim:timetableItem from="MONDAY" to="MONDAY" beginTime="09:00" endTime="17:00" />
+      <bsim:timetableItem from="TUESDAY" to="TUESDAY" beginTime="09:00" endTime="17:00" />
+      <bsim:timetableItem from="WEDNESDAY" to="WEDNESDAY" beginTime="09:00" endTime="17:00" />
+      <bsim:timetableItem from="THURSDAY" to="THURSDAY" beginTime="09:00" endTime="17:00" />
+      <bsim:timetableItem from="FRIDAY" to="FRIDAY" beginTime="09:00" endTime="17:00" />
+    </bsim:timetable>
+    <bsim:timetable id="Student_Hero">
+      <bsim:timetableItem from="MONDAY" to="SUNDAY" beginTime="09:00:00" endTime="17:00:00" />
+    </bsim:timetable>
+    <bsim:timetable id="Student_Normal">
+      <bsim:timetableItem from="MONDAY" to="FRIDAY" beginTime="09:00:00" endTime="17:00:00" />
+    </bsim:timetable>
+    <bsim:timetable id="Student_Lazy">
+      <bsim:timetableItem from="MONDAY" to="WEDNESDAY" beginTime="09:00:00" endTime="13:00:00" />
+      <bsim:timetableItem from="THURSDAY" to="FRIDAY" beginTime="17:00:00" endTime="19:00:00" />
+    </bsim:timetable>
+    <bsim:timetable id="Prof_Busy">
+      <bsim:timetableItem from="MONDAY" to="FRIDAY" beginTime="07:00:00" endTime="09:00:00" />
+    </bsim:timetable>
+  </bsim:timetables>
+  <bsim:simulationConfiguration id="SimuConfig_{{ ID:process }}" startDateTime="2017-10-01T09:00+01:00" processRef="Process_{{ ID:process }}" processInstances="200">
+    <bsim:startEvent id="StartEvent_1">
+      <bpmn:extensionElements></bpmn:extensionElements>
+      <bsim:arrivalRate timeUnit="HOURS">
+        <bsim:constantDistribution>
+          <bsim:constantValue>0.5</bsim:constantValue>
+        </bsim:constantDistribution>
+      </bsim:arrivalRate>
+    </bsim:startEvent>
+  </bsim:simulationConfiguration>
+</bpmn:definitions>

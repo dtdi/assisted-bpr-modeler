@@ -8,20 +8,21 @@
  * except in compliance with the MIT License.
  */
 
-import Config from './Config';
-import Dialog from './Dialog';
-import FileSystem from './FileSystem';
-import Log from './Log';
-import Plugins from './Plugins';
-import SystemClipboard from './SystemClipboard';
-import Workspace from './Workspace';
-import ZeebeAPI from './ZeebeAPI';
+import Config from "./Config";
+import Dialog from "./Dialog";
+import FileSystem from "./FileSystem";
+import Log from "./Log";
+import Plugins from "./Plugins";
+import SystemClipboard from "./SystemClipboard";
+import Workspace from "./Workspace";
+import ZeebeAPI from "./ZeebeAPI";
+import SimuAPI from "./SimuAPI";
 
 const {
   metadata,
   flags,
   plugins: appPlugins,
-  backend: appBackend
+  backend: appBackend,
 } = window.getAppPreload();
 
 export const backend = appBackend;
@@ -42,7 +43,6 @@ export const workspace = new Workspace(backend);
 
 export const zeebeAPI = new ZeebeAPI(backend);
 
-export {
-  metadata,
-  flags
-};
+export const simuAPI = new SimuAPI(backend);
+
+export { metadata, flags };

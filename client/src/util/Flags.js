@@ -9,7 +9,6 @@
  */
 
 class Flags {
-
   constructor() {
     this.data = {};
   }
@@ -24,24 +23,23 @@ class Flags {
 
   reset = () => {
     this.data = {};
-  }
-
+  };
 }
 
 export default new Flags();
 
-
-export const DISABLE_CMMN = 'disable-cmmn';
-export const DISABLE_DMN = 'disable-dmn';
-export const DISABLE_FORM = 'disable-form';
-export const DISABLE_PLATFORM = 'disable-platform';
-export const DISABLE_ZEEBE = 'disable-zeebe';
-export const DISABLE_ADJUST_ORIGIN = 'disable-adjust-origin';
-export const DISABLE_PLUGINS = 'disable-plugins';
-export const RELAUNCH = 'relaunch';
-export const DISABLE_REMOTE_INTERACTION = 'disable-remote-interaction';
-export const UPDATE_SERVER_URL = 'update-server-url';
-export const FORCE_UPDATE_CHECKS = 'force-update-checks';
-export const SENTRY_DSN = 'sentry-dsn';
-export const ET_ENDPOINT = 'et-endpoint';
-export const DISPLAY_VERSION = 'display-version';
+export const DISABLE_CMMN = "disable-cmmn";
+export const DISABLE_DMN = "disable-dmn";
+export const DISABLE_FORM = "disable-form";
+export const DISABLE_ABPR = "disable-abpr";
+export const DISABLE_PLATFORM = "disable-platform";
+export const DISABLE_ZEEBE = "disable-zeebe";
+export const DISABLE_ADJUST_ORIGIN = "disable-adjust-origin";
+export const DISABLE_PLUGINS = "disable-plugins";
+export const RELAUNCH = "relaunch";
+export const DISABLE_REMOTE_INTERACTION = "disable-remote-interaction";
+export const UPDATE_SERVER_URL = "update-server-url";
+export const FORCE_UPDATE_CHECKS = "force-update-checks";
+export const SENTRY_DSN = "sentry-dsn";
+export const ET_ENDPOINT = "et-endpoint";
+export const DISPLAY_VERSION = "display-version";

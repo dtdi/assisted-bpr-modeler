@@ -8,25 +8,25 @@
  * except in compliance with the MIT License.
  */
 
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 
-import classNames from 'classnames';
+import classNames from "classnames";
 
-import { isFunction } from 'min-dash';
+import { isFunction } from "min-dash";
 
-import dragger from '../../util/dom/dragger';
+import dragger from "../../util/dom/dragger";
 
-import css from './PropertiesContainer.less';
+import css from "./PropertiesContainer.less";
 
-import HandleBar from '../../../resources/icons/HandleBar.svg';
+import HandleBar from "../../../resources/icons/HandleBar.svg";
 
-import { throttle } from '../../util';
+import { throttle } from "../../util";
 
 export const MIN_WIDTH = 280;
 
 export const DEFAULT_LAYOUT = {
   open: false,
-  width: MIN_WIDTH
+  width: MIN_WIDTH,
 };
 
 /**
@@ -44,16 +44,16 @@ class PropertiesContainerWrapped extends PureComponent {
     this.context = {};
 
     this.state = {
-      lastSetWidth: this.getStartWidth()
+      lastSetWidth: this.getStartWidth(),
     };
   }
 
   componentDidMount() {
-    window.addEventListener('resize', this.handleResize);
+    window.addEventListener("resize", this.handleResize);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize);
+    window.removeEventListener("resize", this.handleResize);
   }
 
   getStartWidth = () => {
@@ -64,36 +64,28 @@ class PropertiesContainerWrapped extends PureComponent {
     const width = propertiesPanel.width || DEFAULT_LAYOUT.width;
 
     return width;
-  }
+  };
 
   handleResizeStart = (event) => {
-    adjustHandlerDragStyles(
-      this.resizeHandlerRef.current,
-      { dragging: true }
-    );
+    adjustHandlerDragStyles(this.resizeHandlerRef.current, { dragging: true });
 
     const onDragStart = dragger(this.handlePanelResize);
 
     onDragStart(event);
 
-    const {
-      open,
-      width,
-      fullWidth
-    } = getLayoutFromProps(this.props);
+    const { open, width, fullWidth } = getLayoutFromProps(this.props);
 
     this.context = {
       open,
       startWidth: width,
-      fullWidth
+      fullWidth,
     };
-  }
+  };
 
   handleResize = () => {
     const width = getCurrentWidth(this.containerRef.current);
 
     if (width >= getMaxWidth()) {
-
       const newWidth = getWindowWidth();
       this.containerRef.current.style.width = `${newWidth}px`;
 
@@ -101,11 +93,11 @@ class PropertiesContainerWrapped extends PureComponent {
         propertiesPanel: {
           open: true,
           width: newWidth,
-          fullWidth: true
-        }
+          fullWidth: true,
+        },
       });
     }
-  }
+  };
 
   handlePanelResize = (_, delta) => {
     const { x: dx } = delta;
@@ -116,57 +108,46 @@ class PropertiesContainerWrapped extends PureComponent {
 
     const { startWidth } = this.context;
 
-    const {
-      open,
-      width,
-      fullWidth
-    } = getLayout(dx, startWidth);
+    const { open, width, fullWidth } = getLayout(dx, startWidth);
 
     this.context = {
       ...this.context,
       open,
       width: width === 0 ? this.state.lastSetWidth : width,
-      fullWidth
+      fullWidth,
     };
 
     const styledWidth = open ? `${width}px` : 0;
 
     if (this.containerRef.current) {
-      this.containerRef.current.classList.toggle('open', open);
+      this.containerRef.current.classList.toggle("open", open);
       this.containerRef.current.style.width = styledWidth;
     }
 
     if (this.resizeHandlerRef.current) {
       adjustHandlerSnapStyles(this.resizeHandlerRef.current, this.context);
     }
-  }
+  };
 
   handleResizeEnd = () => {
-    adjustHandlerDragStyles(
-      this.resizeHandlerRef.current,
-      { dragging: false }
-    );
+    adjustHandlerDragStyles(this.resizeHandlerRef.current, { dragging: false });
 
-    const {
-      open,
-      width,
-      fullWidth
-    } = this.context;
+    const { open, width, fullWidth } = this.context;
 
     this.context = {};
 
     if (open) {
-      this.setState ({ lastSetWidth: width });
+      this.setState({ lastSetWidth: width });
     }
 
     this.changeLayout({
       propertiesPanel: {
         open,
         width,
-        fullWidth
-      }
+        fullWidth,
+      },
     });
-  }
+  };
 
   handleToggle = () => {
     const { layout = {} } = this.props;
@@ -178,10 +159,10 @@ class PropertiesContainerWrapped extends PureComponent {
         ...DEFAULT_LAYOUT,
         ...propertiesPanel,
         open: !propertiesPanel.open,
-        width: this.state.lastSetWidth
-      }
+        width: this.state.lastSetWidth,
+      },
     });
-  }
+  };
 
   changeLayout = (layout = {}) => {
     const { onLayoutChanged } = this.props;
@@ -189,65 +170,52 @@ class PropertiesContainerWrapped extends PureComponent {
     if (isFunction(onLayoutChanged)) {
       onLayoutChanged(layout);
     }
-  }
+  };
 
   render() {
-    const {
-      className,
-      forwardedRef
-    } = this.props;
+    const { className, forwardedRef } = this.props;
 
-    const {
-      open,
-      width,
-      fullWidth
-    } = getLayoutFromProps(this.props);
+    const { open, width, fullWidth } = getLayoutFromProps(this.props);
 
     return (
       <div
-        ref={ this.containerRef }
-        className={ classNames(
-          css.PropertiesContainer,
-          className,
-          { open }
-        ) }
-        style={ { width } }>
+        ref={this.containerRef}
+        className={classNames(css.PropertiesContainer, className, { open })}
+        style={{ width }}
+      >
         <div
           className="toggle"
-          onClick={ this.handleToggle }
+          onClick={this.handleToggle}
           draggable
-          onDragStart={ this.handleResizeStart }
-          onDragEnd={ this.handleResizeEnd }
+          onDragStart={this.handleResizeStart}
+          onDragEnd={this.handleResizeEnd}
         >
           {!open && <HandleBar />}
         </div>
 
         <div
-          ref={ this.resizeHandlerRef }
-          className={ classNames(
-            'resize-area',
-            { 'snapped-right': !open },
-            { 'snapped-left': fullWidth },
-          ) }
+          ref={this.resizeHandlerRef}
+          className={classNames(
+            "resize-area",
+            { "snapped-right": !open },
+            { "snapped-left": fullWidth }
+          )}
           draggable
-          onDragStart={ this.handleResizeStart }
-          onDragEnd={ this.handleResizeEnd }
+          onDragStart={this.handleResizeStart}
+          onDragEnd={this.handleResizeEnd}
         >
           <div className="resize-handle" />
         </div>
 
-        <div className="properties-container" ref={ forwardedRef }></div>
+        <div className="properties-container" ref={forwardedRef}></div>
       </div>
     );
   }
-
 }
 
-export default React.forwardRef(
-  function PropertiesContainer(props, ref) {
-    return <PropertiesContainerWrapped { ...props } forwardedRef={ ref } />;
-  }
-);
+export default React.forwardRef(function PropertiesContainer(props, ref) {
+  return <PropertiesContainerWrapped {...props} forwardedRef={ref} />;
+});
 
 // helpers //////////
 
@@ -259,28 +227,22 @@ function getLayout(dx, initialWidth) {
   let fullWidth = width > max_width;
 
   if (!open) {
-
     // if was already closed and drags 40px
     if (initialWidth < MIN_WIDTH && dx < -40) {
-
       // snap to min_width
       width = MIN_WIDTH;
       open = true;
-
     } else {
       width = 0;
     }
   }
 
   if (fullWidth) {
-
     // if was already fulled and drags 40px
     if (initialWidth > max_width && dx > 40) {
-
       // snap to max_width
       width = max_width;
       fullWidth = false;
-
     } else {
       width = getWindowWidth();
     }
@@ -289,7 +251,7 @@ function getLayout(dx, initialWidth) {
   return {
     open,
     fullWidth,
-    width
+    width,
   };
 }
 
@@ -305,38 +267,32 @@ function getLayoutFromProps(props) {
   return {
     open,
     width,
-    fullWidth
+    fullWidth,
   };
 }
 
 function adjustHandlerSnapStyles(handle, context) {
-  const {
-    open,
-    fullWidth
-  } = context;
+  const { open, fullWidth } = context;
 
-  handle.classList.remove('snapped-right');
-  handle.classList.remove('snapped-left');
+  handle.classList.remove("snapped-right");
+  handle.classList.remove("snapped-left");
 
   if (!open) {
-    handle.classList.add('snapped-right');
+    handle.classList.add("snapped-right");
   }
 
   if (fullWidth) {
-    handle.classList.add('snapped-left');
+    handle.classList.add("snapped-left");
   }
 }
 
 function adjustHandlerDragStyles(handle, context) {
-
-  Object.keys(context).forEach(state => {
-
+  Object.keys(context).forEach((state) => {
     if (context[state]) {
       handle.classList.add(state);
     } else {
       handle.classList.remove(state);
     }
-
   });
 }
 

@@ -8,31 +8,26 @@
  * except in compliance with the MIT License.
  */
 
-import Metadata from '../../util/Metadata';
+import Metadata from "../../util/Metadata";
 
-import { UAParser } from 'ua-parser-js';
-
+import { UAParser } from "ua-parser-js";
 
 const TAB_TYPE_MAPPING = {
-  'bpmn': 'BPMN - Camunda Platform 7',
-  'cloud-bpmn': 'BPMN - Camunda Platform 8',
-  'dmn': 'DMN - Camunda Platform 7',
-  'cloud-dmn': 'DMN - Camunda Platform 8',
-  'form': 'Form - Camunda Platform 7',
-  'cloud-form': 'Form - Camunda Platform 8'
+  bpmn: "BPMN - Camunda Platform 7",
+  "cloud-bpmn": "BPMN - Camunda Platform 8",
+  dmn: "DMN - Camunda Platform 7",
+  "cloud-dmn": "DMN - Camunda Platform 8",
+  form: "Form - Camunda Platform 7",
+  "cloud-form": "Form - Camunda Platform 8",
+  "simu-bpmn": "aBPR",
 };
 
-
 export class ClipboardCopySystemInfo {
-
   constructor(props) {
-    const {
-      getGlobal,
-      activeTab
-    } = props;
+    const { getGlobal, activeTab } = props;
 
-    this._systemClipboard = getGlobal('systemClipboard');
-    this._plugins = getGlobal('plugins');
+    this._systemClipboard = getGlobal("systemClipboard");
+    this._plugins = getGlobal("plugins");
     this._activeTab = activeTab;
   }
 
@@ -42,11 +37,9 @@ export class ClipboardCopySystemInfo {
   }
 
   _compileSystemInfoString(config) {
-    const {
-      _appendVersion
-    } = this;
+    const { _appendVersion } = this;
 
-    let systemInfoText = '## Camunda Modeler system information';
+    let systemInfoText = "## Camunda Modeler system information";
 
     if (config.version) {
       systemInfoText = appendVersion(systemInfoText, this._getVersion());
@@ -58,7 +51,10 @@ export class ClipboardCopySystemInfo {
       systemInfoText = appendPlugins(systemInfoText, this._getPlugins());
     }
     if (config.executionPlatform) {
-      systemInfoText = appendExecutionPlatform(systemInfoText, this._getExecPlatform());
+      systemInfoText = appendExecutionPlatform(
+        systemInfoText,
+        this._getExecPlatform()
+      );
     }
 
     return systemInfoText;
@@ -71,7 +67,7 @@ export class ClipboardCopySystemInfo {
   _getOS() {
     const userAgentParsed = UAParser(navigator.userAgent);
     const { cpu, os } = userAgentParsed;
-    return [ os.name, os.version, cpu.architecture ].join(' ');
+    return [os.name, os.version, cpu.architecture].join(" ");
   }
 
   _getPlugins() {
@@ -87,21 +83,29 @@ export class ClipboardCopySystemInfo {
 // helper //////////////////
 
 function appendVersion(text, version) {
-  return text + '\r\n * Version: ' + version;
+  return text + "\r\n * Version: " + version;
 }
 
 function appendOS(text, os) {
-  return text + '\r\n * Operating System: ' + os;
+  return text + "\r\n * Operating System: " + os;
 }
 
 function appendPlugins(text, plugins) {
-  return text + '\r\n * Plugins: ' + (plugins.length ?
-    plugins.map(({ name }) => name).join(', ') :
-    '<no plugins>');
+  return (
+    text +
+    "\r\n * Plugins: " +
+    (plugins.length
+      ? plugins.map(({ name }) => name).join(", ")
+      : "<no plugins>")
+  );
 }
 
 function appendExecutionPlatform(text, execPlatform) {
-  return text + '\r\n * Execution Platform: ' + (execPlatform ?
-    execPlatform :
-    '<no active Tab or no execution platform set>');
+  return (
+    text +
+    "\r\n * Execution Platform: " +
+    (execPlatform
+      ? execPlatform
+      : "<no active Tab or no execution platform set>")
+  );
 }

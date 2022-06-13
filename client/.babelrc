@@ -5,7 +5,8 @@
   ],
   "presets": [
     [
-      "@babel/preset-env", {
+      "@babel/preset-env",
+      {
         "modules": false,
         "targets": {
           "chrome": "78"
@@ -17,12 +18,12 @@
   "env": {
     "coverage": {
       "plugins": [
-        [ "istanbul", {
-          "exclude": [
-            "**/__tests__/**",
-            "**/test/**"
-          ]
-        } ]
+        [
+          "istanbul",
+          {
+            "exclude": ["**/__tests__/**", "**/test/**"]
+          }
+        ]
       ]
     }
   }
