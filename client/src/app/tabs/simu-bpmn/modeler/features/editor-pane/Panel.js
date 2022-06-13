@@ -15,6 +15,8 @@ import IdeaPane from "../editor-pane/IdeaPane";
 import { getEditTheme, getDefaultTheme } from "./util";
 import EmptyRedesign from "./Empty";
 import BsimElement from "./BsimElement";
+import ConfigCard from "../bsim-moddle-extension/elements/ConfigCard";
+
 import Messages from "../bsim-moddle-extension/elements/Messages";
 import Empty from "./Empty";
 import RedesignQuestionaire from "./WizardComponent";
@@ -208,6 +210,16 @@ export default class Panel extends Component {
             node={document.getElementById("root")}
           ></Messages>
         )}
+        {simuElements &&
+          simuElements.map((e, idx) => (
+            <ConfigCard
+              key={idx}
+              onChange={this.props.onModdleChange}
+              resources={resources}
+              node={e.html}
+              bsim={e.elem}
+            />
+          ))}
       </Customizer>
     );
   }

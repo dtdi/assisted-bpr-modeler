@@ -13,13 +13,9 @@ import ContextAction from "./tab-context-action";
 import CreateNewAction from "./create-new-action";
 import ElementTemplatesModal from "./element-templates-modal";
 import ErrorTracking from "./error-tracking";
-import PrivacyPreferences from "./privacy-preferences";
-import ReportFeedback from "./report-feedback";
-import UpdateChecks from "./update-checks";
-import UsageStatistics from "./usage-statistics";
+
 import VersionInfo from "./version-info";
 import ZeebePlugin from "./zeebe-plugin";
-import SimuPlugin from "./simu-plugin";
 
 export default [
   CamundaPlugin,
@@ -27,11 +23,7 @@ export default [
   CreateNewAction,
   ElementTemplatesModal,
   ErrorTracking,
-  PrivacyPreferences,
-  ReportFeedback,
-  UpdateChecks,
-  UsageStatistics,
+
   VersionInfo,
   ZeebePlugin,
-  SimuPlugin,
 ];

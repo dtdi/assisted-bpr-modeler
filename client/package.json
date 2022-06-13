@@ -113,7 +113,7 @@
   },
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack --watch --config ./webpack.config.js",
-    "build": "cross-env NODE_ENV=production webpack",
+    "build": "cross-env NODE_ENV=development webpack --config ./webpack.config.js",
     "postbuild": "del-cli --force ../app/public && mv build ../app/public",
     "dev": "run-s start",
     "auto-test": "npm test -- --auto-watch --no-single-run",
