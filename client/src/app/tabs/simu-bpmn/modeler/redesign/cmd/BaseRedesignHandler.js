@@ -40,6 +40,7 @@ BaseRedesignHandler.prototype._simulate = function (context) {
       self
         ._evaluate(res.xml, "baseline", self._moddle, signal)
         .then((value) => {
+          if (!value) return;
           value.groups[3] &&
             value.groups[3].children &&
             value.groups[3].children.forEach((activity) => {

@@ -150,7 +150,11 @@ export default class ConfigCard extends Component {
               {bsim.quant}
             </Text>
           )}
-          <Icon iconName={"Edit"} className={classNames.icon}></Icon>
+          <Icon
+            iconName={"Edit"}
+            color={"rgb(0, 147, 116)"}
+            className={classNames.icon}
+          ></Icon>
         </Stack>
       </HoverCard>,
       node

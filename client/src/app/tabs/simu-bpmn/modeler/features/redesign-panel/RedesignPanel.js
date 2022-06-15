@@ -156,7 +156,7 @@ export default class RedesignPanel {
       (ev) => {
         const { type, context: cntx, redesign } = ev;
         const context = cntx || {};
-        console.log(ev);
+
         let newState = {};
         if (type === "redesignStack.initialized") {
           newState = {
@@ -228,8 +228,6 @@ export default class RedesignPanel {
   onAction = (action, context) => {
     const self = this;
 
-    console.log("onAction", action, context);
-
     if (action === "start-empty") {
       if (!context) {
         const idea = new Idea("DT-0", 0);
@@ -268,7 +266,6 @@ export default class RedesignPanel {
   };
 
   onModdleChange = (element, moddleElement, properties) => {
-    console.log("moddle change", element, moddleElement, properties);
     if (!moddleElement && !properties) {
       // fallback solution
       element(this._definitions);
@@ -395,7 +392,7 @@ export default class RedesignPanel {
     if (!parentNode) {
       return;
     }
-    console.log("detach");
+
     ReactDOM.unmountComponentAtNode(parentNode);
     this._overlays.remove({ type: "bsim" });
 

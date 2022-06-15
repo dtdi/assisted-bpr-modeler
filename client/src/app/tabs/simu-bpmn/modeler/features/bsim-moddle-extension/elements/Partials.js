@@ -129,7 +129,7 @@ export function Resources(props) {
         </Stack>
       );
   }
-  if (!item.resource || item.resource.length == 0) {
+  if (!item || !item.resource || item.resource.length == 0) {
     return (
       <Stack horizontal verticalAlign={"center"} tokens={{ childrenGap: 10 }}>
         <Icon

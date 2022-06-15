@@ -1,5 +1,4 @@
 :local(.PropertiesContainer) {
-
   position: relative;
   outline: none;
 
@@ -16,19 +15,18 @@
   .toggle {
     position: absolute;
     left: -23px;
-    top: calc(50% - 31px);
+    top: calc(40% - 31px);
     padding: 7px 10px;
     transform-origin: top left;
     z-index: 12;
-    fill:var(--color-grey-225-10-85);
+    fill: var(--color-grey-225-10-85);
 
-    &:hover{
+    &:hover {
       fill: var(--color-grey-225-10-75);
 
-      & + .resize-area  .resize-handle {
-        background-color:  var(--color-blue-205-100-50);
-      } 
-
+      & + .resize-area .resize-handle {
+        background-color: var(--color-blue-205-100-50);
+      }
     }
   }
 
@@ -57,24 +55,23 @@
     &.snapped-left {
       transform: translateX(-6px);
       cursor: e-resize;
-    
+
       & > .resize-handle {
         margin-right: auto;
-        transform: translateX(6px)
+        transform: translateX(6px);
       }
     }
 
-    &:hover > .resize-handle  {
-      background-color:  var(--color-blue-205-100-50);
+    &:hover > .resize-handle {
+      background-color: var(--color-blue-205-100-50);
       transition-delay: 200ms;
     }
 
     &.dragging {
-
       & > .resize-handle {
-        background-color:  var(--color-blue-205-100-50);
+        background-color: var(--color-blue-205-100-50);
       }
-  
+
       & + .toggle {
         opacity: 0;
       }
@@ -99,5 +96,4 @@
     --font-family-monospace: inherit;
     background: var(--color-white);
   }
-
 }

@@ -12,4 +12,5 @@ export const PALETTE_OPTIONS = [
   "create.task",
   //"create.subprocess-expanded",
   "create.data-object",
+  "create.participant-expanded",
 ];

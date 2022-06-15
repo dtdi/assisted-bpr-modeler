@@ -22,7 +22,7 @@ import HandleBar from "../../../resources/icons/HandleBar.svg";
 
 import { throttle } from "../../util";
 
-export const MIN_WIDTH = 280;
+export const MIN_WIDTH = 445;
 
 export const DEFAULT_LAYOUT = {
   open: false,
@@ -59,9 +59,9 @@ class SidepanelContainerWrapped extends PureComponent {
   getStartWidth = () => {
     const layout = this.props.layout || {};
 
-    const propertiesPanel = layout.propertiesPanel || DEFAULT_LAYOUT;
+    const redesignPanel = layout.redesignPanel || DEFAULT_LAYOUT;
 
-    const width = propertiesPanel.width || DEFAULT_LAYOUT.width;
+    const width = redesignPanel.width || DEFAULT_LAYOUT.width;
 
     return width;
   };
@@ -90,7 +90,7 @@ class SidepanelContainerWrapped extends PureComponent {
       this.containerRef.current.style.width = `${newWidth}px`;
 
       this.changeLayout({
-        propertiesPanel: {
+        redesignPanel: {
           open: true,
           width: newWidth,
           fullWidth: true,
@@ -141,7 +141,7 @@ class SidepanelContainerWrapped extends PureComponent {
     }
 
     this.changeLayout({
-      propertiesPanel: {
+      redesignPanel: {
         open,
         width,
         fullWidth,
@@ -152,13 +152,13 @@ class SidepanelContainerWrapped extends PureComponent {
   handleToggle = () => {
     const { layout = {} } = this.props;
 
-    const { propertiesPanel = {} } = layout;
+    const { redesignPanel = {} } = layout;
 
     this.changeLayout({
-      propertiesPanel: {
+      redesignPanel: {
         ...DEFAULT_LAYOUT,
-        ...propertiesPanel,
-        open: !propertiesPanel.open,
+        ...redesignPanel,
+        open: !redesignPanel.open,
         width: this.state.lastSetWidth,
       },
     });
@@ -258,11 +258,11 @@ function getLayout(dx, initialWidth) {
 function getLayoutFromProps(props) {
   const layout = props.layout || {};
 
-  const propertiesPanel = layout.propertiesPanel || DEFAULT_LAYOUT;
+  const redesignPanel = layout.redesignPanel || DEFAULT_LAYOUT;
 
-  const { open, fullWidth } = propertiesPanel;
+  const { open, fullWidth } = redesignPanel;
 
-  const width = open ? propertiesPanel.width : 0;
+  const width = open ? redesignPanel.width : 0;
 
   return {
     open,

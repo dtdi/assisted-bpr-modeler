@@ -133,7 +133,7 @@ export class BpmnEditor extends CachedComponent {
     redesignPanel.attachTo(this.redesignPanelRef.current);
 
     try {
-      await this.loadTemplates();
+      //await this.loadTemplates();
     } catch (error) {
       this.handleError({ error });
     }
@@ -287,7 +287,7 @@ export class BpmnEditor extends CachedComponent {
       });
     } else {
       if (isNew && !defaultTemplatesApplied) {
-        modeler.invoke(applyDefaultTemplates);
+        // modeler.invoke(applyDefaultTemplates);
 
         defaultTemplatesApplied = true;
       }
@@ -615,7 +615,7 @@ export class BpmnEditor extends CachedComponent {
     }
 
     if (action === "elementTemplates.reload") {
-      return this.loadTemplates();
+      // return this.loadTemplates();
     }
 
     // TODO(nikku): handle all editor actions

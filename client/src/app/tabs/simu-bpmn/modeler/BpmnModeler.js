@@ -8,7 +8,7 @@
  * except in compliance with the MIT License.
  */
 
-import BpmnModeler from "camunda-bpmn-js/lib/camunda-cloud/Modeler";
+import BpmnModeler from "camunda-bpmn-js/lib/base/Modeler";
 
 import addExporterModule from "@bpmn-io/add-exporter";
 
@@ -25,6 +25,9 @@ import Flags, { DISABLE_ADJUST_ORIGIN } from "../../../../util/Flags";
 import bsimModdlePackage from "bsim-bpmn-moddle/resources/bsim";
 import bsimApiModdlePackage from "bsim-bpmn-moddle/resources/bsimapi";
 import abprModdlePackage from "bsim-bpmn-moddle/resources/abpr";
+import camundaModdle from "camunda-bpmn-moddle/resources/camunda";
+
+import camundaModdleExtension from "camunda-bpmn-moddle/lib";
 
 import bsimImporter from "./features/bsim-importer";
 import bsimModeler from "./features/modeling";
@@ -33,7 +36,7 @@ import redesignStack from "./command";
 import redesignModule from "./redesign";
 import paletteModule from "./features/palette";
 
-import "camunda-bpmn-js/dist/assets/camunda-cloud-modeler.css";
+import "camunda-bpmn-js/dist/assets/camunda-platform-modeler.css";
 
 export default class SimuBpmnModeler extends BpmnModeler {
   constructor(options = {}) {
@@ -45,6 +48,7 @@ export default class SimuBpmnModeler extends BpmnModeler {
         bsim: bsimModdlePackage,
         bsimApiModdlePackage: bsimApiModdlePackage,
         abpr: abprModdlePackage,
+        camunda: camundaModdle,
         ...(moddleExtensions || {}),
       },
       disableAdjustOrigin: Flags.get(DISABLE_ADJUST_ORIGIN),
@@ -56,6 +60,7 @@ const defaultModules = BpmnModeler.prototype._modules;
 
 SimuBpmnModeler.prototype._modules = [
   ...defaultModules,
+  camundaModdleExtension,
   addExporterModule,
   completeDirectEditingModule,
   globalClipboardModule,

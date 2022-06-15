@@ -1,14 +1,9 @@
 {
-  "appId": "com.camunda.CamundaModeler",
-  "productName": "Camunda Modeler",
+  "appId": "de.dtdi.CamundaModeler",
+  "productName": "aBPR Modeler",
   "files": [
     {
-      "filter": [
-        "**",
-        "!**/__tests__",
-        "!test",
-        "!dev.js"
-      ]
+      "filter": ["**", "!**/__tests__", "!test", "!dev.js"]
     }
   ],
   "afterPack": "./tasks/after-pack.js",
@@ -18,7 +13,7 @@
     "target": [
       {
         "target": "zip",
-        "arch": [ "x64", "ia32" ]
+        "arch": ["x64", "ia32"]
       }
     ]
   },
@@ -27,7 +22,7 @@
     "target": [
       {
         "target": "tar.gz",
-        "arch": [ "x64" ]
+        "arch": ["x64"]
       }
     ]
   },
@@ -41,6 +36,13 @@
       "ext": "bpmn",
       "name": "CamundaModeler.BPMN",
       "description": "BPMN file",
+      "role": "Editor",
+      "mimeType": "application/bpmn"
+    },
+    {
+      "ext": "simubpmn",
+      "name": "CamundaModeler.SIMUBPMN",
+      "description": "SimuBPMN file",
       "role": "Editor",
       "mimeType": "application/bpmn"
     },

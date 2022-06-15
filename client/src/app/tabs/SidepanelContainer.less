@@ -15,7 +15,7 @@
   .toggle {
     position: absolute;
     left: -23px;
-    top: calc(50% - 31px);
+    top: calc(60% - 31px);
     padding: 7px 10px;
     transform-origin: top left;
     z-index: 12;
@@ -25,7 +25,7 @@
       fill: var(--color-grey-225-10-75);
 
       & + .resize-area .resize-handle {
-        background-color: var(--color-blue-205-100-50);
+        background-color: var(--color-green-167-100-29);
       }
     }
   }
@@ -63,13 +63,13 @@
     }
 
     &:hover > .resize-handle {
-      background-color: var(--color-blue-205-100-50);
+      background-color: var(--color-green-167-100-29);
       transition-delay: 200ms;
     }
 
     &.dragging {
       & > .resize-handle {
-        background-color: var(--color-blue-205-100-50);
+        background-color: var(--color-green-167-100-29);
       }
 
       & + .toggle {
