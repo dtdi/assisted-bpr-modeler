@@ -1,0 +1,6 @@
+[defaults]
+project=assisted-bpr
+org=dtdi
+
+[auth]
+token=81e98a0e180d49ad85586d4bb7c6e8c3f85ccc3ee64e44259f65ad547f0b0e57

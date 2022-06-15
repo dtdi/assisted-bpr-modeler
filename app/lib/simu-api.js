@@ -15,6 +15,7 @@ const fs = require("fs");
 var crypto = require("crypto");
 const { setTimeout } = require("node:timers/promises");
 const { exec, spawn } = require("child_process");
+const { tmpdir } = require("os");
 
 const log = require("./log")("app:simu-api");
 
@@ -45,7 +46,11 @@ class SimuAPI {
   }
 
   async _simulate(parameters = {}) {
-    const { filePath: originalPath, fileContents, signal } = { ...parameters };
+    const { filePath, fileContents, signal } = { ...parameters };
+    let originalPath = filePath;
+    if (!originalPath) {
+      originalPath = tmpdir();
+    }
 
     const taskDone = new AbortController();
     let proc;
@@ -77,6 +82,7 @@ class SimuAPI {
         var hash = shasum.update(fileContents).digest("hex");
 
         const directory = path.join(path.dirname(originalPath), "sim");
+        log.info("Simulation output directory", directory);
         fs.mkdirSync(directory, { recursive: true });
 
         const filePath = path.join(directory, hash + ".bpmn");

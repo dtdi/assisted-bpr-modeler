@@ -1,4 +1,4 @@
-import { map, forEach, isArray, groupBy } from "min-dash";
+import { map, forEach, isArray, without } from "min-dash";
 import { DivRstSet, Graph, div_dp } from "div-top-k";
 
 import ParallelAdvice from "./idea/ParallelAdvice";
@@ -36,22 +36,27 @@ export default class Recommender {
     this._editorActions = editorActions;
     this._injector = injector;
     this._redesignStack = redesignStack;
-    this.focusDimension = {};
     const self = this;
+
+    this._haltLinting = true;
 
     self.baseSimulation = null;
     self.abortSignal = null;
 
-    eventBus.on("element.click", (event) => {
-      console.log(event.element);
-    });
-
-    eventBus.on("linting.completed", async (event) => {
-      const { issues } = event;
-
-      if (Object.keys(issues).length == 0) {
+    eventBus.on("linting.completed", ({ linting }) => {
+      console.log("linting.completed", linting);
+      if (
+        linting &&
+        without(linting, (a) => (a.category = "warn")).length == 0
+      ) {
         //self._internalExecute()
-        self.setFocusDimension({ dimension: DEVILS_QUADRANGLE[3] });
+        self._haltLinting = false;
+        if (!self.focusDimension)
+          self.setFocusDimension({ dimension: DEVILS_QUADRANGLE[3] });
+      } else {
+        console.log("real issues");
+
+        self._haltLinting = true;
       }
     });
 
@@ -60,14 +65,32 @@ export default class Recommender {
     });
 
     eventBus.on("redesignStack.finalized", (event) => {
-      self._internalExecute();
+      self._findRecommendations();
     });
+
+    self._registerActions();
   }
 
-  _internalExecute() {
+  _registerActions = () => {
+    const self = this;
+    var actions = {
+      "change-objective": (opts) => {
+        self.setFocusDimension(opts);
+      },
+      "refresh-recommendations": () => {
+        self.refresh();
+      },
+    };
+    self._editorActions.register(actions);
+  };
+
+  _findRecommendations() {
     var self = this;
+
+    if (self._haltLinting) return;
+
     self.mutes = [];
-    forEach(self._providerMap, (item, key) => {
+    forEach(self._providerMap, (item) => {
       if (item.execute) {
         item.execute(self.focusDimension);
       }
@@ -133,7 +156,7 @@ export default class Recommender {
   }
 
   refresh() {
-    this._internalExecute();
+    this._findRecommendations();
   }
 
   setFocusDimension(context) {
@@ -144,7 +167,7 @@ export default class Recommender {
     this.focusDimension = dimension;
     this._entries = [];
     this._eventBus.fire("redesign.dimension.changed", { dimension });
-    this._internalExecute();
+    this._findRecommendations();
   }
 
   getFocusDimensions() {
@@ -197,11 +220,11 @@ export default class Recommender {
       return;
     }
 
-    /** 
+    /**
     if (!this._container) {
       this._init();
     }
-  
+
     this._update();
     */
   }

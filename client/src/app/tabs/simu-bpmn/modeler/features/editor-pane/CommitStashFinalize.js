@@ -27,9 +27,8 @@ export default class CommitStashFinalize extends Component {
     const { context: oldContext } = oldProps;
     const { context } = this.props;
     if (
-      oldContext &&
-      oldContext.commitMessage !== context &&
-      context.commitMessage
+      (oldContext && oldContext.commitMessage) !==
+      (context && context.commitMessage)
     ) {
       this.setState({ commitMessage: context.commitMessage });
     }
@@ -104,14 +103,12 @@ export default class CommitStashFinalize extends Component {
             <Stack horizontal tokens={{ childrenGap: 8 }}>
               {wizard && (
                 <PrimaryButton
-                  text={context.wizard.isVisible ? "Close" : "Open"}
+                  text={wizard.isVisible ? "Close" : "Open"}
                   iconProps={{
-                    iconName: context.wizard.isVisible
-                      ? "ChromeClose"
-                      : "Settings",
+                    iconName: wizard.isVisible ? "ChromeClose" : "Settings",
                   }}
                   toggle
-                  checked={context.wizard.isVisible}
+                  checked={wizard.isVisible}
                   onClick={(_) => {
                     onAction("wizard-toggle");
                   }}

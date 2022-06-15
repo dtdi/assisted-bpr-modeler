@@ -8,12 +8,13 @@ export default class RemoveElementHandler {
     host: businessObject, // the parent business Object
     hints: hints, //
   };
-   * @param {*} context 
+   * @param {*} context
    */
 
   execute = function (context) {
-    var bsim = context.bsim,
-      oldParent = bsim.$parent,
+    var bsim = context.bsim;
+    if (!bsim) return;
+    const oldParent = bsim.$parent,
       businessObject = context.host;
 
     if (businessObject) {

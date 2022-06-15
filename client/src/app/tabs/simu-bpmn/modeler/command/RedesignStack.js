@@ -1,4 +1,5 @@
 import { uniqueBy, isArray } from "min-dash";
+import Idea from "../recommender/Idea";
 
 /**
  * A service that offers undoable execution of redesigns.
@@ -76,7 +77,7 @@ import { uniqueBy, isArray } from "min-dash";
  * @param {EventBus} eventBus
  * @param {Injector} injector
  */
-export default function RedesignStack(eventBus, injector) {
+export default function RedesignStack(eventBus, injector, editorActions) {
   /**
    * A map of all registered redesign handlers.
    *
@@ -110,6 +111,7 @@ export default function RedesignStack(eventBus, injector) {
 
   this._injector = injector;
   this._eventBus = eventBus;
+  this._editorActions = editorActions;
 
   this._uid = 1;
 
@@ -121,9 +123,64 @@ export default function RedesignStack(eventBus, injector) {
     },
     this
   );
+  self._registerEditorActions();
 }
 
-RedesignStack.$inject = ["eventBus", "injector"];
+RedesignStack.prototype._registerEditorActions = function () {
+  const self = this;
+  var actions = {
+    "start-empty": function (opts) {
+      let context = opts;
+      if (!opts) {
+        const idea = new Idea("DT-0", 0);
+        idea.name = "Manual Redesign";
+        idea.bestPracticeClass = "other";
+        context = {
+          idea: idea,
+        };
+      }
+      self.initialize("idea.simple", context);
+    },
+
+    "base-simulation": (opts) => {
+      let context = opts || {};
+      context.restart = true;
+      self.evaluate("idea.base", context);
+    },
+
+    stash: (opts) => {
+      self.stash(opts);
+    },
+
+    next: (opts) => {
+      self.next(opts);
+    },
+
+    commit: (opts) => {
+      let context = opts || {};
+      self.commit(context);
+    },
+
+    revert: (opts) => {
+      let context = opts || {};
+      self.revert(context);
+    },
+
+    finalize: (opts) => {
+      let context = opts || {};
+      self.finalize(context);
+    },
+
+    "commit-finalize": (opts) => {
+      let context = opts || {};
+      self.commit(context);
+      self.finalize(context);
+    },
+  };
+  this._editorActions.register(actions);
+};
+
+RedesignStack.$inject = ["eventBus", "injector", "editorActions"];
 
 /**
  * evaluate a redesign Execution
@@ -145,19 +202,18 @@ RedesignStack.prototype.evaluate = function (redesign, context) {
 
   if (handler.evaluate) {
     self._fire(redesign, "evaluation-started", {});
-    const promise = handler.evaluate(context);
-    promise
+
+    return  handler.evaluate(context)
       .then((context) => {
         var action = { redesign: redesign, context: context };
-
         self._fire(redesign, "evaluated", action);
+        return context;
       })
       .catch((err) => {
         var action = { redesign: redesign, context: context, error: err };
         self._fire(redesign, "evaluation-failed", action);
       });
 
-    return promise;
   }
 };
 

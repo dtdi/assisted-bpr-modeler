@@ -36,6 +36,7 @@ export function getAutomationCandidates(flowElements, modeling) {
   return flowElements.filter((element) => {
     return (
       is(element, "bpmn:Activity") &&
+      !is(element, "bpmn:ManualTask") &&
       !isDisqualified(element, modeling, "is-DU-25") &&
       !hasAutomatedResource(element, modeling)
     );
@@ -97,7 +98,7 @@ export function getTriageActivities(flowElements, modeling) {
 }
 
 function _getName(thing) {
-  return getBusinessObject(thing).name || thing.id.id || thing.id;
+  return getBusinessObject(thing).name || (thing.id && thing.id.id) || thing.id;
 }
 export function getNiceNamesFromContext(context) {
   if (context.shapes) {
@@ -128,19 +129,19 @@ export function getCatchEvents(flowElements) {
   return flowElements.filter((e) => is(e, "bpmn:IntermediateCatchEvent"));
 }
 
-function noLabelsButBO(list) {
+export function noLabelsButBO(list) {
   return list
     .filter((e) => e.type !== "label")
     .map((e) => getBusinessObject(e));
 }
 
-function isJoin(elem) {
+export function isJoin(elem) {
   elem = getBusinessObject(elem);
   const { incoming } = elem;
   return incoming && incoming.length > 1;
 }
 
-function isBranch(elem) {
+export function isBranch(elem) {
   elem = getBusinessObject(elem);
   const { outgoing } = elem;
   return outgoing && outgoing.length > 1;
@@ -160,7 +161,7 @@ export function getStraightSequences(process) {
   return simples;
 }
 
-function simpleSequence(sink) {
+export function simpleSequence(sink) {
   const elements = [];
   let elem = getNext(sink);
   while (elem && !isBranch(elem) && !isJoin(elem)) {
@@ -496,12 +497,7 @@ export function ensureModdleProperty(elem, type, moddle) {
   }
 }
 
-export function simulationResult(processData, resourceData, suffix) {
-  if (!suffix) {
-    suffix = resourceData;
-    resourceData = undefined;
-  }
-
+export function simulationResult({ processData, resourceData, suffix }) {
   const { time, cost, activities } = processData;
   const items = [];
 
@@ -690,29 +686,30 @@ export function simulationResult(processData, resourceData, suffix) {
 }
 
 export function compareAgainst(itemsA, itemsB) {
-  var left, right;
+  var big, small;
   if (itemsA.length > itemsB.length) {
-    left = itemsA;
-    right = itemsB;
+    big = itemsA;
+    small = itemsB;
   } else {
-    left = itemsB;
-    right = itemsA;
+    big = itemsB;
+    small = itemsA;
   }
 
-  const items = left.map((itemA, i) => {
-    const item = { ...itemA };
+  const items = big.map((_, i) => {
+    if (!small[i] || itemsA[i].fullKey != itemsB[i].fullKey) {
+      small.splice(i, 0, { value: 0, valueNice: "n/a" });
+    }
+
+    const item = { ...itemsA[i] };
 
     item.value_baseline = item.value;
     item.valueNice_baseline = item.valueNice;
 
-    if (item.fullKey != right[i].fullKey) {
-      right.splice(i, 0, { ...item });
-    }
-
-    item.value_simulation = right[i].value;
-    item.valueNice_simulation = right[i].valueNice;
+    item.value_simulation = itemsB[i].value;
+    item.valueNice_simulation = itemsB[i].valueNice;
     item.diff = item.value_simulation - item.value_baseline;
-    item.change = item.diff / item.value_baseline;
+    item.change =
+      item.value_baseline != 0 ? item.diff / item.value_baseline : 1;
     item.changeNice = formatPercent(item.change);
     item.changeSemantic = formatSemantic(item.change, item.dimension);
     item.diffNice =

@@ -4,9 +4,10 @@ import { PALETTE_OPTIONS as availableActions } from "./PaletteOptions";
 
 const LOW_PRIORITY = 500;
 export default class PaletteProvider {
-  constructor(palette, eventBus) {
+  constructor(palette, selection, elementRegistry) {
     palette.registerProvider(LOW_PRIORITY, this);
-    this._eventBus = eventBus;
+    this._selection = selection;
+    this._elementRegistry = elementRegistry;
   }
 
   getPaletteEntries(element) {
@@ -18,24 +19,9 @@ export default class PaletteProvider {
         }
       });
 
-      entries["bsim-seperator"] = {
-        group: "bsim",
-        separator: true,
-      };
-      entries["bsim.edit-simulation-config"] = {
-        group: "bsim",
-        className: "bpmn-icon-subprocess-expanded",
-        title: "Edit Simulation Configuration",
-        action: {
-          click: () => {
-            self._eventBus.fire("bsim.toggle-config-modal");
-          },
-        },
-      };
-
       return entries;
     };
   }
 }
 
-PaletteProvider.$inject = ["palette", "eventBus"];
+PaletteProvider.$inject = ["palette", "selection", "elementRegistry"];

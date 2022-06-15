@@ -8,12 +8,14 @@
  * except in compliance with the MIT License.
  */
 
-const pkg = require('./package');
+const pkg = require("./package");
+
+require("dotenv").config();
 
 // ensure production mode
-process.env.NODE_ENV = 'production';
+process.env.NODE_ENV = "production";
 
 // Injected to pkg via electron-builder extraMetadata configuration.
 process.env.SENTRY_DSN = pkg.SENTRY_DSN;
 
-require('./lib');
+require("./lib");

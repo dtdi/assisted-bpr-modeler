@@ -35,8 +35,6 @@ import css from "./BpmnEditor.less";
 
 import generateImage from "../../util/generateImage";
 
-import applyDefaultTemplates from "../bpmn-shared/modeler/features/apply-default-templates/applyDefaultTemplates";
-
 import configureModeler from "../bpmn-shared/util/configure";
 
 import Metadata from "../../../util/Metadata";
@@ -54,8 +52,6 @@ import Panel from "../panel/Panel";
 import LintingTab from "../panel/tabs/LintingTab";
 
 import { ENGINES } from "../../../util/Engines";
-
-import { getCloudTemplates } from "../../../util/elementTemplates";
 
 const EXPORT_AS = ["png", "jpeg", "svg"];
 
@@ -183,8 +179,6 @@ export class BpmnEditor extends CachedComponent {
       modeler[fn](event, this.handleChanged);
     });
 
-    modeler[fn]("elementTemplates.errors", this.handleElementTemplateErrors);
-
     modeler[fn]("error", 1500, this.handleError);
 
     modeler[fn]("minimap.toggle", this.handleMinimapToggle);
@@ -202,18 +196,6 @@ export class BpmnEditor extends CachedComponent {
     } else if (fn === "off") {
       modeler[fn]("commandStack.changed", this.handleLintingDebounced);
     }
-  }
-
-  async loadTemplates() {
-    const { getConfig } = this.props;
-
-    const modeler = this.getModeler();
-
-    const templatesLoader = modeler.get("elementTemplatesLoader");
-
-    let templates = await getConfig("bpmn.elementTemplates");
-
-    templatesLoader.setTemplates(getCloudTemplates(templates));
   }
 
   undo = () => {
@@ -399,7 +381,15 @@ export class BpmnEditor extends CachedComponent {
 
     const { onAction } = this.props;
 
-    onAction("lint-tab", { contents });
+    onAction("lint-tab", { contents }).then(({ linting }) => {
+      if (linting) {
+        const eventBus = modeler.get("eventBus");
+
+        eventBus.fire("linting.completed", {
+          linting,
+        });
+      }
+    });
   };
 
   handleSimulation = async (options) => {
@@ -409,10 +399,6 @@ export class BpmnEditor extends CachedComponent {
 
     const res = await onAction("simulate", { contents });
 
-    onAction("emit-event", {
-      type: "abpr.simulate.done",
-      payload: res,
-    });
     return res;
   };
 
@@ -610,6 +596,12 @@ export class BpmnEditor extends CachedComponent {
 
     if (action === "showLintError") {
       showLintError(modeler, context);
+
+      return;
+    }
+
+    if (action === "showElement") {
+      showElement(modeler, context);
 
       return;
     }
@@ -817,6 +809,34 @@ function isCacheStateChanged(prevProps, props) {
 
 function showLintError(modeler, error) {
   let { id, message, ...rest } = error;
+
+  const canvas = modeler.get("canvas"),
+    elementRegistry = modeler.get("elementRegistry"),
+    eventBus = modeler.get("eventBus"),
+    selection = modeler.get("selection");
+
+  const element = elementRegistry.get(id);
+
+  if (!element) {
+    return;
+  }
+
+  if (element !== canvas.getRootElement()) {
+    canvas.scrollToElement(element);
+  }
+
+  selection.select(element);
+
+  eventBus.fire("propertiesPanel.showError", {
+    focus: true,
+    id,
+    message,
+    ...rest,
+  });
+}
+
+function showElement(modeler, context) {
+  let { id } = context;
 
   const canvas = modeler.get("canvas"),
     elementRegistry = modeler.get("elementRegistry"),

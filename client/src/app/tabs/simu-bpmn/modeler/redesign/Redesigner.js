@@ -26,7 +26,6 @@ export default class Redesigner {
 
       self._redesignStack
         .evaluate("idea.base", {})
-        .then((res) => console.log(res))
         .catch((err) => console.error(err));
     });
   }

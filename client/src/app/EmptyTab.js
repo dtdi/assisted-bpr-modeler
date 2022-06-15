@@ -157,7 +157,6 @@ export default class EmptyTab extends PureComponent {
             <a href="https://camunda.com/blog/2022/04/camunda-platform-8-orchestrate-all-the-things?utm_source=modeler&utm_medium=referral">
               Read blog post
             </a>
-            <NewBadge anchored top="-7px" right="-40px" />
           </div>
 
           <div className="article">
@@ -190,7 +189,14 @@ export default class EmptyTab extends PureComponent {
             Choose the right version for your project:
           </h2>
         )}
+
         <div className="welcome-cards">
+          {!Flags.get(DISABLE_ABPR) && (
+            <>
+              {this.renderABPRColumn()}
+              <div className="flex-spacer" />
+            </>
+          )}
           {!Flags.get(DISABLE_ZEEBE) && (
             <>
               {this.renderCloudColumn()}
@@ -200,12 +206,6 @@ export default class EmptyTab extends PureComponent {
           {!Flags.get(DISABLE_PLATFORM) && (
             <>
               {this.renderPlatformColumn()}
-              <div className="flex-spacer" />
-            </>
-          )}
-          {!Flags.get(DISABLE_ABPR) && (
-            <>
-              {this.renderABPRColumn()}
               <div className="flex-spacer" />
             </>
           )}

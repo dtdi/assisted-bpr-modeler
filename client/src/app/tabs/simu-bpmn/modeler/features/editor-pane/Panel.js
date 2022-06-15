@@ -43,19 +43,21 @@ export default class Panel extends Component {
 
   onAction = (action, context) => {
     const { onAction: onParentAction } = this.props;
+
     if (action === "go-to-ideas") {
       this.setState({ tab: "ideas" });
       return;
-      if (action === "search") {
-      }
     } else if (action === "modal-toggle") {
       this.setState({ isConfigModalVisible: !this.state.isConfigModalVisible });
+      return;
     } else if (action === "wizard-toggle") {
       const { context } = this.state;
       context.wizard.isVisible = !context.wizard.isVisible;
       this.setState({ context });
+      return;
     } else if (action === "modal-tab-change") {
       this.setState({ configModalTab: context.newTab });
+      return;
     }
 
     onParentAction(action, context);
@@ -130,8 +132,20 @@ export default class Panel extends Component {
               styles={{ root: { position: "relative" } }}
             >
               <ScrollablePane>
+                {/* Idea tab, but a idea is in Progress. */}
                 {tab === "ideas" && context && (
-                  <Empty>Please finish the current redesign first!</Empty>
+                  <Empty
+                    onRecs={() => {
+                      onAction("go-to-ideas");
+                    }}
+                    onEmpty={() => {
+                      onAction("start-empty");
+                    }}
+                    primaryText="View Ideas"
+                    secondaryText="Start Empty"
+                  >
+                    Please finish the current redesign first!
+                  </Empty>
                 )}
                 {tab === "ideas" &&
                   false &&
@@ -150,13 +164,15 @@ export default class Panel extends Component {
                 )}
                 {tab === "editmode" && !context && (
                   <Empty
-                    onRecs={() => {
+                    onPrimary={() => {
                       onAction("go-to-ideas");
                     }}
-                    onEmpty={() => {
+                    onSecondary={() => {
                       onAction("start-empty");
                     }}
-                  />
+                    primaryText="View Ideas"
+                    secondaryText="Start Empty"
+                  ></Empty>
                 )}
 
                 {tab === "simulation" && simuPerf && (
@@ -177,15 +193,17 @@ export default class Panel extends Component {
                 )}
                 {tab === "history" && !(context || redesignStack) && (
                   <Empty
-                    onRecs={() => {
+                    onPrimary={() => {
                       onAction("go-to-ideas");
                     }}
-                    onEmpty={() => {
+                    onSecondary={() => {
                       onAction("start-empty");
                     }}
+                    primaryText="View Ideas"
+                    secondaryText="Start Empty"
                   >
-                    You have not implemented an idea. Switch to the redesign tab
-                    to choose an idea or start with a empty change set.
+                    You haven't implemented a redesign yet. Get inspired by the
+                    recommendations in the ideas tab or start from scratch.
                   </Empty>
                 )}
               </ScrollablePane>

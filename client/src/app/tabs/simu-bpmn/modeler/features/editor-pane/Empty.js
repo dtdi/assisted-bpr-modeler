@@ -16,9 +16,12 @@ export default function Empty(props) {
     margin: "0 25px",
   });
 
-  const { onRecs, onEmpty } = props;
-  const text = `You have not selected a redesign idea to implement. Switch to the
+  const { onPrimary, onSecondary, primaryText, secondaryText, iconName, children } = props;
+  const textContent = children || `You have not selected a redesign idea to implement. Switch to the
   redesign tab to choose an idea or start with a empty change set.`;
+
+  const _iconName = iconName || "ClearNight";
+
 
   return (
     <Stack
@@ -27,12 +30,12 @@ export default function Empty(props) {
       horizontalAlign={"center"}
       tokens={{ childrenGap: 12, padding: 12 }}
     >
-      <Icon iconName={"ClearNight"} className={iconClass} />
+      <Icon iconName={_iconName} className={iconClass} />
 
-      <Text wrap>{props.children || text}</Text>
+      <Text wrap>{textContent}</Text>
       <Stack horizontal tokens={{ childrenGap: 12, padding: 12 }}>
-        <PrimaryButton onClick={onRecs}>View Ideas</PrimaryButton>
-        <DefaultButton onClick={onEmpty}>Start from blank</DefaultButton>
+        <PrimaryButton onClick={onPrimary}>{primaryText}</PrimaryButton>
+        <DefaultButton onClick={onSecondary}>{secondaryText}</DefaultButton>
       </Stack>
     </Stack>
   );

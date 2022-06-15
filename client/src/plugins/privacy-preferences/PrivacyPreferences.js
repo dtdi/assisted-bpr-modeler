@@ -8,13 +8,13 @@
  * except in compliance with the MIT License.
  */
 
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 
-import PrivacyPreferencesView from './PrivacyPreferencesView';
+import PrivacyPreferencesView from "./PrivacyPreferencesView";
 
-import Flags, { DISABLE_REMOTE_INTERACTION } from '../../util/Flags';
+import Flags, { DISABLE_REMOTE_INTERACTION } from "../../util/Flags";
 
-const CONFIG_KEY = 'editor.privacyPreferences';
+const CONFIG_KEY = "editor.privacyPreferences";
 
 class NoopComponent extends PureComponent {
   render() {
@@ -23,9 +23,9 @@ class NoopComponent extends PureComponent {
 }
 
 export default class PrivacyPreferences extends PureComponent {
-
   constructor(props) {
     super(props);
+
     if (Flags.get(DISABLE_REMOTE_INTERACTION)) {
       return new NoopComponent();
     }
@@ -34,71 +34,67 @@ export default class PrivacyPreferences extends PureComponent {
   state = {
     showModal: false,
     isInitialPreferences: false,
-    preferences: null
-  }
+    preferences: null,
+  };
 
   async componentDidMount() {
-    const {
-      config
-    } = this.props;
+    const { config } = this.props;
 
     let result = await config.get(CONFIG_KEY);
     if (!result) {
       this.setState({
         showModal: true,
-        isInitialPreferences: true
+        isInitialPreferences: true,
       });
     }
 
-    this.props.subscribe('show-privacy-preferences', async (context) => {
-      const {
-        autoFocusKey
-      } = context;
+    this.props.subscribe("show-privacy-preferences", async (context) => {
+      const { autoFocusKey } = context;
 
       let preferences = await config.get(CONFIG_KEY);
       this.setState({
         autoFocusKey,
         showModal: true,
         isInitialPreferences: false,
-        preferences: preferences
+        preferences: preferences,
       });
     });
   }
 
   onClose = () => {
     this.setState({
-      showModal: false
+      showModal: false,
     });
-  }
+  };
 
   onSaveAndClose = (preferences) => {
-    this.props.config.set(CONFIG_KEY, preferences)
-      .then(() => this.emit('privacy-preferences.changed', preferences));
+    this.props.config
+      .set(CONFIG_KEY, preferences)
+      .then(() => this.emit("privacy-preferences.changed", preferences));
 
     this.onClose();
-  }
+  };
 
   emit(event, payload) {
-    this.props.triggerAction('emit-event', { type: event, payload });
+    this.props.triggerAction("emit-event", { type: event, payload });
   }
 
   render() {
-    const {
-      autoFocusKey,
-      showModal,
-      isInitialPreferences,
-      preferences
-    } = this.state;
+    const { autoFocusKey, showModal, isInitialPreferences, preferences } =
+      this.state;
 
-    return <React.Fragment>
-      { showModal &&
-        <PrivacyPreferencesView
-          autoFocusKey={ autoFocusKey }
-          onClose={ this.onClose }
-          preferences={ preferences }
-          onSaveAndClose={ this.onSaveAndClose }
-          canCloseWithoutSave={ !isInitialPreferences } />
-      }
-    </React.Fragment>;
+    return (
+      <React.Fragment>
+        {showModal && (
+          <PrivacyPreferencesView
+            autoFocusKey={autoFocusKey}
+            onClose={this.onClose}
+            preferences={preferences}
+            onSaveAndClose={this.onSaveAndClose}
+            canCloseWithoutSave={!isInitialPreferences}
+          />
+        )}
+      </React.Fragment>
+    );
   }
 }

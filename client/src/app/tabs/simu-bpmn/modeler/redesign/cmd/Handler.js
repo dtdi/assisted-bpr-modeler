@@ -122,10 +122,12 @@ Handler.prototype._evaluate = async function (
 ) {
   const that = this;
   try {
-    abortSignal.addEventListener("abort", () => {
-      console.log("cancel simulation executions");
-      that._eventBus.fire("abpr.simulate.abort");
-    });
+    if (abortSignal) {
+      abortSignal.addEventListener("abort", () => {
+        console.log("cancel simulation executions");
+        that._eventBus.fire("abpr.simulate.abort");
+      });
+    }
 
     const response = await that._eventBus.fire("abpr.simulate", {
       contents: importXml,
@@ -138,7 +140,14 @@ Handler.prototype._evaluate = async function (
 
       const processSimu = processes && processes.process[0];
       const resourceData = resources && resources.resource;
-      return simulationResult(processSimu, resourceData, "_" + sfx);
+      if (!processSimu) {
+        throw Error("No process returned");
+      }
+      return simulationResult({
+        processData: processSimu,
+        resourceData: resourceData,
+        suffix: "_" + sfx,
+      });
     } else {
       throw Error("No process returned");
     }

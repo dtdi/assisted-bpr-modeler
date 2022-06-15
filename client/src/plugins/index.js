@@ -8,22 +8,24 @@
  * except in compliance with the MIT License.
  */
 
-import CamundaPlugin from "./camunda-plugin";
+//import CamundaPlugin from "./camunda-plugin";
 import ContextAction from "./tab-context-action";
 import CreateNewAction from "./create-new-action";
-import ElementTemplatesModal from "./element-templates-modal";
+//import ElementTemplatesModal from "./element-templates-modal";
 import ErrorTracking from "./error-tracking";
 
-import VersionInfo from "./version-info";
-import ZeebePlugin from "./zeebe-plugin";
+//import VersionInfo from "./version-info";
+//import ZeebePlugin from "./zeebe-plugin";
+
+import PrivacyPreferences from "./privacy-preferences";
 
 export default [
-  CamundaPlugin,
+  //CamundaPlugin,
   ContextAction,
   CreateNewAction,
-  ElementTemplatesModal,
+  //ElementTemplatesModal,
   ErrorTracking,
-
-  VersionInfo,
-  ZeebePlugin,
+  PrivacyPreferences,
+  //VersionInfo,
+  //ZeebePlugin,
 ];

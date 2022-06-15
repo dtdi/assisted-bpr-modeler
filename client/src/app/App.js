@@ -1514,7 +1514,7 @@ export class App extends PureComponent {
   triggerAction = failSafe((action, options) => {
     const { activeTab } = this.state;
 
-    log("App#triggerAction %s %o", action, options);
+    //log("App#triggerAction %s %o", action, options);
 
     if (action === "lint-tab") {
       const { tab, contents } = options;
