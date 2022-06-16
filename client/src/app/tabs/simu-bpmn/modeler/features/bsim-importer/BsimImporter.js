@@ -100,7 +100,7 @@ export default class BsimImporter {
               processInstances: 200,
               startDateTime: format(
                 startOfWeek(new Date(), { weekStartsOn: 1 }),
-                "YYYY-MM-DDTHH:mm"
+                "yyyy-MM-dd'T'HH:mm"
               ),
             });
             ctx.push(bsim);

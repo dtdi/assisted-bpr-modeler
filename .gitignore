@@ -9,4 +9,3 @@ coverage
 .linked-dependencies
 .env
 .sentryclirc
-package-lock.json
