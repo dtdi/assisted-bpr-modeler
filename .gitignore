@@ -7,3 +7,6 @@ plugins/**
 coverage
 .nyc_output
 .linked-dependencies
+.env
+.sentryclirc
+package-lock.json
