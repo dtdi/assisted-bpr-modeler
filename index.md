@@ -2,9 +2,25 @@
 
 This project is modeler application for assisted Business Process Redesign (aBPR). aBPR is a JavaScript application that demonstrates the application of redesign patterns in BPR initiatives. It is an implementation of the reference architecture presented in An assisted approach to business process redesign (submitted to Decision Support Systems) and based on the client component of the Camunda Modeler.
 
+Quick links
+- Download: https://github.com/dtdi/assisted-bpr-modeler/releases/latest
+- Video Demonstration: https://www.youtube.com/embed/VqrHj7RaFXQ
+- Tutorial Document: 
+
 ## Getting started
 
 Depending on your Windows plattform (32 bit vs. 64 bit), either download `camunda-modeler-5.0.0-win-x64.zip` or `camunda-modeler-5.0.0-win-ia32.zip` from [the latest release](https://github.com/dtdi/assisted-bpr-modeler/releases/latest) and extract the `.zip` file. In the extracted folder, you will find the `Camunda Modeler.exe` file that you can execute. Since the aBPR tool is an extension of the [Camunda Modeler](https://github.com/camunda/camunda-modeler), you can use the tool also to edit `.bpmn`, `.dmn` or `.form` files. The file extension for working with aBPR process diagrams is `.simubpmn` for simulable BPMN. 
+
+## Video Demonstration
+
+A demonstration video is provided here:
+
+<iframe src="https://www.youtube.com/embed/VqrHj7RaFXQ" 
+    width="560" 
+    height="315"
+    frameborder="0" 
+    allowfullscreen>
+</iframe>
 
 ## How it Works
 
@@ -12,11 +28,9 @@ The software prototype is a web application that starts from an empty canvas or 
 In our prototype, we support process redesign patterns by [Reijers & Limam Mansar (2005)](https://doi.org/10.1016/j.omega.2004.04.012) in varying levels of automation: The triage and activity automation patterns are implemented as guided advice, the parallelism and extra resources pattern are implemented as advice whereas the remaining are implemented as hints and ideas. 
 
 1) Import or model a BPMN Business Process for improvement. 
-
 ![overall](https://user-images.githubusercontent.com/922917/125649915-accff879-538b-47b5-b75e-6a1ee47913ef.PNG)
 
 2) After setting the performance objective, a list of recommendations indicates potential improvements to the process model, such as the parallelization of tasks.
-
 ![parallel_apply_1](https://user-images.githubusercontent.com/922917/125649930-efb88ab1-22aa-494a-a330-1e97e87995e9.png)
 
 3) The recommendation can be automatically applied to the model. Changes to the process model are tracked. 
@@ -30,19 +44,6 @@ In our prototype, we support process redesign patterns by [Reijers & Limam Mansa
 
 The procedure starts over allowing for an iterative improvement of the process model. 
 
-## Run the tool
-
-## Video Demonstration
-
-A demonstration video is provided here:
-
-<iframe src="https://www.youtube.com/embed/VqrHj7RaFXQ" 
-    width="560" 
-    height="315"
-    frameborder="0" 
-    allowfullscreen>
-</iframe>
-
 
 ## Built with
 
@@ -53,4 +54,4 @@ A demonstration video is provided here:
 
 ## Contact
 
-Tobias Fehrer ([@dtdi](https://twitter.com/dtdi_), [LinkedIn](https://www.linkedin.com/in/tobiasfehrer/))
+Tobias Fehrer ([@dtdi](https://twitter.com/dtdi_), [LinkedIn](https://www.linkedin.com/in/tobiasfehrer/), [tobias-fehrer.de](tobias-fehrer.de])
