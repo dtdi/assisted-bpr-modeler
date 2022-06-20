@@ -1,7 +1,4 @@
 {
-  "version": "5.0.0",
-  "packages": [
-    "app",
-    "client"
-  ]
+  "version": "5.0.0-abpr",
+  "packages": ["app", "client"]
 }

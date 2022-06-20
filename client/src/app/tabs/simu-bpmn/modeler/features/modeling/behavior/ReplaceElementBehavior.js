@@ -42,7 +42,7 @@ export default function ReplaceElementBehavior(injector, modeling) {
       if (newHost && getBusinessObject(newHost).bsim) {
         const hostBsim = getBusinessObject(newHost).bsim;
 
-        console.log(hostBsim.get("boundaryEvents"));
+        //console.log(hostBsim.get("boundaryEvents"));
         modeling.updateModdleProperties(hostBsim, "bsim:boundaryEvents", {
           boundaryEvent: [bsim],
         });

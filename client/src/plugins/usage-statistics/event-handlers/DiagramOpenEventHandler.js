@@ -8,82 +8,66 @@
  * except in compliance with the MIT License.
  */
 
-import { omit } from 'min-dash';
+import { omit } from "min-dash";
 
-import BaseEventHandler from './BaseEventHandler';
+import BaseEventHandler from "./BaseEventHandler";
 
-import { getMetrics } from '../../../util';
+import { getMetrics } from "../../../util";
 
-import { getEngineProfile as parseEngineProfile } from '../../../util/parse';
+import { getEngineProfile as parseEngineProfile } from "../../../util/parse";
 
-import { getCloudTemplates, getPlatformTemplates } from '../../../util/elementTemplates';
+import {
+  getCloudTemplates,
+  getPlatformTemplates,
+} from "../../../util/elementTemplates";
 
-import { ENGINES } from '../../../util/Engines';
+import { ENGINES } from "../../../util/Engines";
 
 const HTTP_STATUS_PAYLOAD_TOO_BIG = 413;
 
-const BINDING_TYPE_PROPERTY = 'property';
-const ELEMENT_TEMPLATES_CONFIG_KEY = 'bpmn.elementTemplates';
+const BINDING_TYPE_PROPERTY = "property";
+const ELEMENT_TEMPLATES_CONFIG_KEY = "bpmn.elementTemplates";
 
 const types = {
-  BPMN: 'bpmn',
-  DMN: 'dmn',
-  CMMN: 'cmmn',
-  FORM: 'form'
+  BPMN: "bpmn",
+  SIMUBPMN: "simu-bpmn",
+  DMN: "dmn",
+  CMMN: "cmmn",
+  FORM: "form",
 };
 
 // Sends a diagramOpened event to ET when an user opens any diagram
 // (create a new one or open from file).
 export default class DiagramOpenEventHandler extends BaseEventHandler {
-
   constructor(props) {
+    const { onSend, subscribe, config } = props;
 
-    const {
-      onSend,
-      subscribe,
-      config
-    } = props;
-
-    super('diagramOpened', onSend);
+    super("diagramOpened", onSend);
 
     this._config = config;
 
-    subscribe('bpmn.modeler.created', async (context) => {
+    subscribe("bpmn.modeler.created", async (context) => {
+      const { tab } = context;
 
-      const {
-        tab
-      } = context;
-
-      const {
-        file,
-        type
-      } = tab;
+      const { file, type } = tab;
 
       return await this.onBpmnDiagramOpened(file, type);
     });
 
-    subscribe('dmn.modeler.created', context => {
-      const {
-        file,
-        type
-      } = context.tab;
+    subscribe("dmn.modeler.created", (context) => {
+      const { file, type } = context.tab;
 
       return this.onDmnDiagramOpened(file, type);
     });
 
-    subscribe('cmmn.modeler.created', () => {
+    subscribe("cmmn.modeler.created", () => {
       this.onDiagramOpened(types.CMMN);
     });
 
-    subscribe('form.modeler.created', async (context) => {
+    subscribe("form.modeler.created", async (context) => {
+      const { tab } = context;
 
-      const {
-        tab
-      } = context;
-
-      const {
-        file
-      } = tab;
+      const { file } = tab;
 
       return await this.onFormOpened(file);
     });
@@ -97,40 +81,31 @@ export default class DiagramOpenEventHandler extends BaseEventHandler {
     }
 
     return metrics;
-  }
+  };
 
   getEngineProfile = async (file, type) => {
-    const {
-      contents
-    } = file;
+    const { contents } = file;
 
     if (!contents) {
       return {};
     }
 
-    const {
-      executionPlatform
-    } = await parseEngineProfile(contents, type);
+    const { executionPlatform } = await parseEngineProfile(contents, type);
 
     return {
-      executionPlatform: executionPlatform || getDefaultExecutionPlatform(type)
+      executionPlatform: executionPlatform || getDefaultExecutionPlatform(type),
     };
-  }
+  };
 
   onDiagramOpened = async (type, context = {}) => {
-
     if (!this.isEnabled()) {
       return;
     }
 
-    const {
-      elementTemplates,
-      diagramMetrics,
-      engineProfile
-    } = context;
+    const { elementTemplates, diagramMetrics, engineProfile } = context;
 
     const payload = {
-      diagramType: type
+      diagramType: type,
     };
 
     if (elementTemplates) {
@@ -149,78 +124,72 @@ export default class DiagramOpenEventHandler extends BaseEventHandler {
     const response = await this.sendToET(payload);
 
     if (response && response.status === HTTP_STATUS_PAYLOAD_TOO_BIG) {
-
       // Payload too large, send again with smaller payload
-      this.sendToET(omit(payload, [ 'elementTemplates' ]));
+      this.sendToET(omit(payload, ["elementTemplates"]));
     }
-  }
+  };
 
   onFormOpened = async (file, context = {}) => {
-
-    const {
-      contents
-    } = file;
+    const { contents } = file;
 
     if (contents) {
-
       try {
-        const schema = (JSON.parse(contents));
+        const schema = JSON.parse(contents);
 
-        const {
-          executionPlatform,
-          executionPlatformVersion
-        } = schema;
+        const { executionPlatform, executionPlatformVersion } = schema;
 
         if (executionPlatform) {
-
-          const engineProfile = executionPlatformVersion ?
-            { executionPlatform: executionPlatform, executionPlatformVersion: executionPlatformVersion }
+          const engineProfile = executionPlatformVersion
+            ? {
+                executionPlatform: executionPlatform,
+                executionPlatformVersion: executionPlatformVersion,
+              }
             : { executionPlatform: executionPlatform };
 
           context = {
             engineProfile,
-            ...context
+            ...context,
           };
         }
-
       } catch (error) {
         return;
       }
     }
 
     return await this.onDiagramOpened(types.FORM, context);
-
-  }
+  };
 
   onBpmnDiagramOpened = async (file, type, context = {}) => {
-
     const diagramMetrics = await this.generateMetrics(file, type);
-    const engineProfile = await this.getEngineProfile(file, type);
-    const elementTemplates = await this.getElementTemplates(file, type);
+    //const engineProfile = await this.getEngineProfile(file, type);
+    //const elementTemplates = await this.getElementTemplates(file, type);
 
-    return await this.onDiagramOpened(types.BPMN, {
+    const safeType = type == "bpmn" ? types.BPMN : types.SIMUBPMN;
+
+    return await this.onDiagramOpened(safeType, {
       diagramMetrics,
-      engineProfile,
-      elementTemplates,
-      ...context
+      //engineProfile,
+      //elementTemplates,
+      ...context,
     });
-
-  }
+  };
 
   onDmnDiagramOpened = async (file, type, context = {}) => {
     const engineProfile = await this.getEngineProfile(file, type);
 
     return await this.onDiagramOpened(types.DMN, {
       engineProfile,
-      ...context
+      ...context,
     });
-  }
+  };
 
   getElementTemplates = async (file, type) => {
-
     const config = this._config;
 
-    const elementTemplates = await config.get(ELEMENT_TEMPLATES_CONFIG_KEY, file);
+    const elementTemplates = await config.get(
+      ELEMENT_TEMPLATES_CONFIG_KEY,
+      file
+    );
 
     if (!elementTemplates) {
       return [];
@@ -231,32 +200,30 @@ export default class DiagramOpenEventHandler extends BaseEventHandler {
     return elementTemplateFilter(elementTemplates).map((elementTemplate) => {
       const { appliesTo, properties, icon } = elementTemplate;
 
-      const propertyCounts = properties.map((property) => {
+      const propertyCounts = properties
+        .map((property) => {
+          const { binding } = property;
+          const { type, name } = binding;
 
-        const { binding } = property;
-        const { type, name } = binding;
+          if (type === BINDING_TYPE_PROPERTY) {
+            return name;
+          }
 
-        if (type === BINDING_TYPE_PROPERTY) {
-          return name;
-        }
+          return type;
+        })
+        .reduce((propertyCounts, property) => {
+          if (propertyCounts[property]) {
+            propertyCounts[property]++;
+          } else {
+            propertyCounts[property] = 1;
+          }
 
-        return type;
-      }).reduce((propertyCounts, property) => {
-
-        if (propertyCounts[ property ]) {
-
-          propertyCounts[ property ]++;
-        } else {
-
-          propertyCounts[ property ] = 1;
-        }
-
-        return propertyCounts;
-      }, {});
+          return propertyCounts;
+        }, {});
 
       const reducedTemplate = {
         appliesTo,
-        properties: propertyCounts
+        properties: propertyCounts,
       };
 
       if (icon) {
@@ -265,9 +232,8 @@ export default class DiagramOpenEventHandler extends BaseEventHandler {
 
       return reducedTemplate;
     });
-  }
+  };
 }
-
 
 // helper ////////////////
 
@@ -280,7 +246,7 @@ function getDefaultExecutionPlatform(type) {
 }
 
 function getElementTemplatesFilter(type) {
-  if (type === 'cloud-bpmn') {
+  if (type === "cloud-bpmn") {
     return getCloudTemplates;
   }
 

@@ -201,7 +201,18 @@ export default class TabsProvider {
           return `diagram_${suffix}.simubpmn`;
         },
         getHelpMenu() {
-          return [];
+          return [
+            {
+              label: "simuBPMN Overview",
+              action:
+                "https://dtdi.github.io/assisted-bpr-modeler/simu-bpmn?utm_source=modeler&utm_medium=referral",
+            },
+            {
+              label: "aBPR Modeler Docs",
+              action:
+                "https://dtdi.github.io/assisted-bpr-modeler?utm_source=modeler&utm_medium=referral",
+            },
+          ];
         },
         getNewFileMenu() {
           return [

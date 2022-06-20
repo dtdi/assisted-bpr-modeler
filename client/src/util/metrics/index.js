@@ -8,27 +8,18 @@
  * except in compliance with the MIT License.
  */
 
-import {
-  isNumber
-} from 'min-dash';
+import { isNumber } from "min-dash";
 
-import {
-  getProcessVariablesCount
-} from './processVariables';
+import { getProcessVariablesCount } from "./processVariables";
 
-import {
-  getUserTaskMetrics
-} from './userTasks';
+import { getUserTaskMetrics } from "./userTasks";
 
-import {
-  getServiceTaskMetrics
-} from './serviceTasks';
+import { getServiceTaskMetrics } from "./serviceTasks";
 
-import {
-  getSubprocessPlaneMetrics
-} from './subprocessPlanes';
+import { getSubprocessPlaneMetrics } from "./subprocessPlanes";
+import { getSimuTaskMetrics } from "./simuTasks";
 
-export default async function(file, type) {
+export default async function (file, type) {
   let metrics = {};
 
   // (1) process variables
@@ -37,27 +28,20 @@ export default async function(file, type) {
   if (isNumber(processVariablesCount)) {
     metrics = {
       ...metrics,
-      processVariablesCount
+      processVariablesCount,
     };
   }
 
   // (2) elements
-  // (2.1) user tasks
-  const userTaskMetrics = await getUserTaskMetrics(file, type);
 
-  // (2.2) service tasks
-  const serviceTaskMetrics = await getServiceTaskMetrics(file, type);
-
-  // (3) subprocess planes
-  const subprocessPlanes = await getSubprocessPlaneMetrics(file, type);
+  // (2.1) simu tasks
+  const simuTaskMetrics = await getSimuTaskMetrics(file, type);
 
   metrics = {
     ...metrics,
     tasks: {
-      userTask: userTaskMetrics,
-      serviceTask: serviceTaskMetrics
+      simuTask: simuTaskMetrics,
     },
-    subprocessPlanes
   };
 
   return metrics;

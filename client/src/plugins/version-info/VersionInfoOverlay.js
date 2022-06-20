@@ -8,24 +8,32 @@
  * except in compliance with the MIT License.
  */
 
-import React from 'react';
+import React from "react";
 
-import { Overlay, Section } from '../../shared/ui';
+import { Overlay, Section } from "../../shared/ui";
 
-import { ReleaseInfo } from './ReleaseInfo';
+import { ReleaseInfo } from "./ReleaseInfo";
 
-const RELEASE_NOTES_LINK = 'https://camunda.com/blog/category/modeling/?tag=camunda-modeler&release-note&utm_source=modeler&utm_medium=referral';
-const DOCS_LINK = 'https://docs.camunda.io/docs/components/modeler/desktop-modeler/?utm_source=modeler&utm_medium=referral';
-const CHANGELOG_LINK = 'https://github.com/camunda/camunda-modeler/blob/master/CHANGELOG.md';
+const RELEASE_NOTES_LINK =
+  "https://camunda.com/blog/category/modeling/?tag=camunda-modeler&release-note&utm_source=modeler&utm_medium=referral";
+const DOCS_LINK =
+  "https://docs.camunda.io/docs/components/modeler/desktop-modeler/?utm_source=modeler&utm_medium=referral";
+const CHANGELOG_LINK =
+  "https://github.com/camunda/camunda-modeler/blob/master/CHANGELOG.md";
+const ABPR_LINK =
+  "https://dtdi.github.io/assisted-bpr-modeler?utm_source=modeler&utm_medium=referral";
 
 const OFFSET = { right: 0 };
 
 export function VersionInfoOverlay(props) {
   return (
     <Overlay
-      id="version-info-overlay" anchor={ props.anchor } onClose={ props.onClose } offset={ OFFSET }
+      id="version-info-overlay"
+      anchor={props.anchor}
+      onClose={props.onClose}
+      offset={OFFSET}
     >
-      <WhatsNewSection version={ props.version } />
+      <WhatsNewSection version={props.version} />
 
       <LearnMoreSection />
     </Overlay>
@@ -33,12 +41,9 @@ export function VersionInfoOverlay(props) {
 }
 
 function WhatsNewSection(props) {
-
   return (
     <Section maxHeight="500px">
-      <Section.Header>
-        What's new in Modeler { props.version }
-      </Section.Header>
+      <Section.Header>What's new in Modeler {props.version}</Section.Header>
       <Section.Body>
         <ReleaseInfo />
       </Section.Body>
@@ -49,14 +54,21 @@ function WhatsNewSection(props) {
 function LearnMoreSection(props) {
   return (
     <Section>
-      <Section.Header>
-        Learn More
-      </Section.Header>
+      <Section.Header>Learn More</Section.Header>
       <Section.Body>
         <ul className="dashed">
-          <li><a href={ RELEASE_NOTES_LINK }>Release Notes on Camunda blog</a></li>
-          <li><a href={ DOCS_LINK }>Camunda Modeler docs</a></li>
-          <li><a href={ CHANGELOG_LINK }>Changelog on GitHub</a></li>
+          <li>
+            <a href={ABPR_LINK}>aBPR Modeler docs</a>
+          </li>
+          <li>
+            <a href={RELEASE_NOTES_LINK}>Release Notes on Camunda blog</a>
+          </li>
+          <li>
+            <a href={DOCS_LINK}>Camunda Modeler docs</a>
+          </li>
+          <li>
+            <a href={CHANGELOG_LINK}>Changelog on GitHub</a>
+          </li>
         </ul>
       </Section.Body>
     </Section>

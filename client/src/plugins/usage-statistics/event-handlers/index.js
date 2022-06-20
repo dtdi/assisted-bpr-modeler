@@ -8,16 +8,14 @@
  * except in compliance with the MIT License.
  */
 
-import PingEventHandler from './PingEventHandler';
-import DiagramOpenEventHandler from './DiagramOpenEventHandler';
-import DeploymentEventHandler from './DeploymentEventHandler';
-import VersionInfoOpenedEventHandler from './VersionInfoOpenedEventHandler';
-import UserTrackedClickEventHandler from './UserTrackedClickEventHandler';
+import PingEventHandler from "./PingEventHandler";
+import DiagramOpenEventHandler from "./DiagramOpenEventHandler";
+import VersionInfoOpenedEventHandler from "./VersionInfoOpenedEventHandler";
+import UserTrackedClickEventHandler from "./UserTrackedClickEventHandler";
 
 export default [
   PingEventHandler,
   DiagramOpenEventHandler,
-  DeploymentEventHandler,
   VersionInfoOpenedEventHandler,
-  UserTrackedClickEventHandler
+  UserTrackedClickEventHandler,
 ];

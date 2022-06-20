@@ -271,7 +271,7 @@ export function taskIdsInComponent(element) {
 export function tasksInComponent(element) {
   var tasks = sequencesInComponent(element);
 
-  console.log(sequencesInComponent(element));
+  //console.log(sequencesInComponent(element));
 
   const flatten = function (items) {
     const flat = [];
@@ -295,7 +295,7 @@ export function tasksInComponent(element) {
 export function sequencesInComponent(element, branches) {
   branches = branches || [];
   if (_isLoop(branches, element.id)) {
-    console.log("findTasks_isLoop", element);
+    //console.log("findTasks_isLoop", element);
     return;
   }
 
@@ -327,7 +327,7 @@ export function sequencesInComponent(element, branches) {
 
 function nextActivity(element, branches) {
   if (_isLoop(branches, element.id)) {
-    console.log("nextActivity_isLoop", element);
+    //console.log("nextActivity_isLoop", element);
     return;
   }
 

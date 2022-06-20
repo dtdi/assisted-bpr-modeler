@@ -8,95 +8,76 @@
  * except in compliance with the MIT License.
  */
 
-import {
-  find,
-  keys
-} from 'min-dash';
+import { find, keys } from "min-dash";
 
-import BaseEventHandler from './BaseEventHandler';
+import BaseEventHandler from "./BaseEventHandler";
 
-import {
-  getMetrics
-} from '../../../util';
+import { getMetrics } from "../../../util";
 
-import {
-  getEngineProfile as parseEngineProfile
-} from '../../../util/parse';
+import { getEngineProfile as parseEngineProfile } from "../../../util/parse";
 
-import { ENGINES } from '../../../util/Engines';
+import { ENGINES } from "../../../util/Engines";
 
-const BPMN_TAB_TYPE = 'bpmn';
-const CLOUD_BPMN_TAB_TYPE = 'cloud-bpmn';
-const DMN_TAB_TYPE = 'dmn';
-const CLOUD_DMN_TAB_TYPE = 'cloud-dmn';
+const BPMN_TAB_TYPE = "bpmn";
+const CLOUD_BPMN_TAB_TYPE = "cloud-bpmn";
+const SIMU_BPMN_TAB_TYPE = "simu-bpmn";
+const DMN_TAB_TYPE = "dmn";
+const CLOUD_DMN_TAB_TYPE = "cloud-dmn";
 
 // Tabs for which we send telemetry data on deployment
 const RELEVANT_TAB_TYPES = [
   BPMN_TAB_TYPE,
   CLOUD_BPMN_TAB_TYPE,
   DMN_TAB_TYPE,
-  CLOUD_DMN_TAB_TYPE
+  CLOUD_DMN_TAB_TYPE,
+  SIMU_BPMN_TAB_TYPE,
 ];
 
 const DIAGRAM_BY_TAB_TYPE = {
-  'bpmn': [ BPMN_TAB_TYPE, CLOUD_BPMN_TAB_TYPE ],
-  'dmn': [ DMN_TAB_TYPE, CLOUD_DMN_TAB_TYPE ]
+  bpmn: [BPMN_TAB_TYPE, CLOUD_BPMN_TAB_TYPE],
+  dmn: [DMN_TAB_TYPE, CLOUD_DMN_TAB_TYPE],
+  "simu-bpmn": [SIMU_BPMN_TAB_TYPE],
 };
 
 // Sends a deployment event to ET everytime when a user triggers a deployment
 export default class DeploymentEventHandler extends BaseEventHandler {
-
   constructor(params) {
-
     const { onSend, subscribe } = params;
 
-    super('deployment', onSend);
+    super("deployment", onSend);
 
-    subscribe('deployment.done', this.handleDeployment);
-    subscribe('deployment.error', this.handleDeployment);
+    subscribe("deployment.done", this.handleDeployment);
+    subscribe("deployment.error", this.handleDeployment);
   }
 
   generateMetrics = async (file, tabType) => {
     let metrics = {};
 
-    if (getDiagramType(tabType) !== 'dmn' && file.contents) {
+    if (getDiagramType(tabType) !== "dmn" && file.contents) {
       metrics = await getMetrics(file, tabType);
     }
 
     return metrics;
-  }
+  };
 
   getEngineProfile = async (file, type) => {
-    const {
-      contents
-    } = file;
+    const { contents } = file;
 
     if (!contents) {
       return {};
     }
 
-    const {
-      executionPlatform
-    } = await parseEngineProfile(contents, type);
+    const { executionPlatform } = await parseEngineProfile(contents, type);
 
     return {
-      executionPlatform: executionPlatform || getDefaultExecutionPlatform(type)
+      executionPlatform: executionPlatform || getDefaultExecutionPlatform(type),
     };
-  }
+  };
 
   handleDeployment = async (event) => {
-    const {
-      error,
-      tab,
-      context,
-      targetType,
-      deployedTo
-    } = event;
+    const { error, tab, context, targetType, deployedTo } = event;
 
-    const {
-      type,
-      file
-    } = tab;
+    const { type, file } = tab;
 
     // (0) check whether usage statistics are enabled
     if (!this.isEnabled()) {
@@ -109,7 +90,7 @@ export default class DeploymentEventHandler extends BaseEventHandler {
     }
 
     // (2) retrieve deployment status
-    const outcome = error ? 'failure' : 'success';
+    const outcome = error ? "failure" : "success";
 
     // (3) generate diagram related metrics, e.g. process variables
     const diagramMetrics = await this.generateMetrics(file, type);
@@ -119,13 +100,13 @@ export default class DeploymentEventHandler extends BaseEventHandler {
       diagramType: getDiagramType(type),
       deployment: {
         outcome,
-        context
+        context,
       },
-      diagramMetrics
+      diagramMetrics,
     };
 
     // (5) add engineProfile
-    payload.engineProfile = await this.getEngineProfile(file, type) || { };
+    payload.engineProfile = (await this.getEngineProfile(file, type)) || {};
 
     // (6) (potentially) add deployment error
     if (error) {
@@ -141,20 +122,18 @@ export default class DeploymentEventHandler extends BaseEventHandler {
     if (deployedTo) {
       payload.deployment = {
         ...payload.deployment,
-        ...deployedTo
+        ...deployedTo,
       };
     }
 
     this.sendToET(payload);
-  }
-
+  };
 }
-
 
 // helpers ////////////
 
 function getDiagramType(tabType) {
-  return find(keys(DIAGRAM_BY_TAB_TYPE), function(diagramType) {
+  return find(keys(DIAGRAM_BY_TAB_TYPE), function (diagramType) {
     return DIAGRAM_BY_TAB_TYPE[diagramType].includes(tabType);
   });
 }

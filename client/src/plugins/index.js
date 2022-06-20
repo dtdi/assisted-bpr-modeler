@@ -13,8 +13,10 @@ import ContextAction from "./tab-context-action";
 import CreateNewAction from "./create-new-action";
 //import ElementTemplatesModal from "./element-templates-modal";
 import ErrorTracking from "./error-tracking";
+import ReportFeedback from "./report-feedback";
 
-//import VersionInfo from "./version-info";
+import VersionInfo from "./version-info";
+import UsageStatistics from "./usage-statistics";
 //import ZeebePlugin from "./zeebe-plugin";
 
 import PrivacyPreferences from "./privacy-preferences";
@@ -26,6 +28,8 @@ export default [
   //ElementTemplatesModal,
   ErrorTracking,
   PrivacyPreferences,
-  //VersionInfo,
+  VersionInfo,
+  ReportFeedback,
+  UsageStatistics,
   //ZeebePlugin,
 ];

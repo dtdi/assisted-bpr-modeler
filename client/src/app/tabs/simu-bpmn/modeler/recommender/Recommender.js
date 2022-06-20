@@ -44,7 +44,7 @@ export default class Recommender {
     self.abortSignal = null;
 
     eventBus.on("linting.completed", ({ linting }) => {
-      console.log("linting.completed", linting);
+      //console.log("linting.completed", linting);
       if (
         linting &&
         without(linting, (a) => (a.category = "warn")).length == 0
@@ -54,7 +54,7 @@ export default class Recommender {
         if (!self.focusDimension)
           self.setFocusDimension({ dimension: DEVILS_QUADRANGLE[3] });
       } else {
-        console.log("real issues");
+        //console.log("real issues");
 
         self._haltLinting = true;
       }

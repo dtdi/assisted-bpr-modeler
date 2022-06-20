@@ -59,7 +59,7 @@ export default class RedesignPanel {
     this._panelRef = null;
 
     if (config && config.parent) {
-      console.log("init via config");
+      //console.log("init via config");
 
       this.attachTo(config.parent);
     }

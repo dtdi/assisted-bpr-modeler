@@ -8,33 +8,32 @@
  * except in compliance with the MIT License.
  */
 
-import BaseEventHandler from './BaseEventHandler';
+import BaseEventHandler from "./BaseEventHandler";
 
 /**
  * Sends event when user opens version info overlay.
  */
 export default class VersionInfoOpenedEventHandler extends BaseEventHandler {
-
   constructor(props) {
-    const {
-      onSend,
-      subscribe
-    } = props;
+    const { onSend, subscribe } = props;
 
-    super('versionInfoOpened', onSend);
+    super("versionInfoOpened", onSend);
 
     this._subscribe = subscribe;
   }
 
   onAfterEnable() {
-    this._subscription = this._subscribe('versionInfo.opened', this.handleEvent);
+    this._subscription = this._subscribe(
+      "versionInfo.opened",
+      this.handleEvent
+    );
   }
 
   onAfterDisable() {
     this._subscription && this._subscription.cancel();
   }
 
-  handleEvent = payload => {
+  handleEvent = (payload) => {
     return this.sendToET({ source: payload.source });
-  }
+  };
 }

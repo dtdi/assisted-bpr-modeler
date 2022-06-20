@@ -9,7 +9,7 @@ export default class UpdateModdlePropertiesHandler {
 }
 
 UpdateModdlePropertiesHandler.prototype.execute = function (context) {
-  console.log(context);
+  //console.log(context);
   var element = context.element,
     moddleElement = context.moddleElement,
     properties = context.properties;
