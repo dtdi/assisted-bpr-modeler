@@ -1,10 +1,10 @@
 ## Welcome to Assisted BPR Modeler
 
-This project is modeler application for assisted Business Process Redesign (aBPR). aBPR is a JavaScript application that demonstrates the application of redesign patterns in BPR initiatives. It is an implementation of the reference architecture presented in An assisted approach to business process redesign (submitted to Decision Support Systems) and based on the client component of the Camunda Modeler.
+This project is modeler application for assisted Business Process Redesign (aBPR). aBPR is a JavaScript application that demonstrates the application of redesign patterns in BPR initiatives. It is an implementation of the reference architecture presented in *An assisted approach to business process redesign* (In Decision Support Systems, [https://doi.org/10.1016/j.dss.2022.113749]) and based on Camunda Modeler.
 
 Quick links
-- Download: https://github.com/dtdi/assisted-bpr-modeler/releases/latest
-- Video Demonstration: https://www.youtube.com/embed/VqrHj7RaFXQ
+- Download: [latest release](https://github.com/dtdi/assisted-bpr-modeler/releases/latest)
+- Video Demonstration: [https://www.youtube.com/embed/VqrHj7RaFXQ]
 - Tutorial Document: 
 
 ## Getting started
