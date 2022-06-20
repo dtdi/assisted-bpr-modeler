@@ -4,12 +4,12 @@ This project is modeler application for assisted Business Process Redesign (aBPR
 
 Quick links
 - Download: [latest release](https://github.com/dtdi/assisted-bpr-modeler/releases/latest)
-- Video Demonstration: [https://www.youtube.com/embed/VqrHj7RaFXQ]
-- Tutorial Document: 
+- [Video Demonstration](https://www.youtube.com/embed/VqrHj7RaFXQ)
+- [Tutorial Document](https://github.com/dtdi/assisted-bpr-modeler/blob/gh-pages/aBPR%20Tutorial.pdf) 
 
 ## Getting started
 
-Depending on your Windows plattform (32 bit vs. 64 bit), either download `camunda-modeler-5.0.0-win-x64.zip` or `camunda-modeler-5.0.0-win-ia32.zip` from [the latest release](https://github.com/dtdi/assisted-bpr-modeler/releases/latest) and extract the `.zip` file. In the extracted folder, you will find the `Camunda Modeler.exe` file that you can execute. Since the aBPR tool is an extension of the [Camunda Modeler](https://github.com/camunda/camunda-modeler), you can use the tool also to edit `.bpmn`, `.dmn` or `.form` files. The file extension for working with aBPR process diagrams is `.simubpmn` for simulable BPMN. 
+Depending on your Windows plattform (32 bit vs. 64 bit), either download `camunda-modeler-5.0.0-abpr-win-x64.zip` or `camunda-modeler-5.0.0-abpr-win-ia32.zip` from [the latest release](https://github.com/dtdi/assisted-bpr-modeler/releases/latest) and extract the `.zip` file. In the extracted folder, you will find the `Camunda Modeler.exe` file that you can execute. Since the aBPR tool is an extension of the [Camunda Modeler](https://github.com/camunda/camunda-modeler), you can use the tool also to edit `.bpmn`, `.dmn` or `.form` files. The file extension for working with aBPR process diagrams is `.simubpmn` for simulable BPMN. 
 
 ## Video Demonstration
 
