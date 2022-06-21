@@ -44,6 +44,9 @@ In our prototype, we support process redesign patterns by [Reijers & Limam Mansa
 
 The procedure starts over allowing for an iterative improvement of the process model. 
 
+## Further Resources
+
+- [simuBPMN Help](simu-bpmn)
 
 ## Built with
 
@@ -54,4 +57,4 @@ The procedure starts over allowing for an iterative improvement of the process m
 
 ## Contact
 
-Tobias Fehrer ([@dtdi](https://twitter.com/dtdi_), [LinkedIn](https://www.linkedin.com/in/tobiasfehrer/), [tobias-fehrer.de](tobias-fehrer.de])
+Tobias Fehrer ([@dtdi](https://twitter.com/dtdi_), [LinkedIn](https://www.linkedin.com/in/tobiasfehrer/), [tobias-fehrer.de](https://tobias-fehrer.de])
