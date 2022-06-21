@@ -4,8 +4,8 @@ This project is modeler application for assisted Business Process Redesign (aBPR
 
 Quick links
 - Download: [latest release](https://github.com/dtdi/assisted-bpr-modeler/releases/latest)
-- [Video Demonstration](https://www.youtube.com/embed/VqrHj7RaFXQ)
-- [Tutorial Document](https://github.com/dtdi/assisted-bpr-modeler/blob/gh-pages/aBPR%20Tutorial.pdf) 
+- [Short video demonstration](https://www.youtube.com/watch?v=HwXtz2mDHLw)
+- [Tutorial document](https://github.com/dtdi/assisted-bpr-modeler/blob/gh-pages/aBPR%20Tutorial.pdf) 
 
 ## Getting started
 
@@ -13,12 +13,17 @@ Depending on your Windows plattform (32 bit vs. 64 bit), either download `camund
 
 ## Video Demonstration
 
-A demonstration video is provided here:
+A short demonstration video is provided here:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/HwXtz2mDHLw" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+An extended demonstration video is provided here:
 
 <iframe src="https://www.youtube.com/embed/VqrHj7RaFXQ" 
     width="560" 
     height="315"
     frameborder="0" 
+    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
     allowfullscreen>
 </iframe>
 
