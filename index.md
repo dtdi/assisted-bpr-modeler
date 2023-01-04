@@ -11,7 +11,7 @@ Quick links
 
 Depending on your Windows plattform (32 bit vs. 64 bit), either download `camunda-modeler-5.0.0-abpr-win-x64.zip` or `camunda-modeler-5.0.0-abpr-win-ia32.zip` from [the latest release](https://github.com/dtdi/assisted-bpr-modeler/releases/latest) and extract the `.zip` file. In the extracted folder, you will find the `Camunda Modeler.exe` file that you can execute. Since the aBPR tool is an extension of the [Camunda Modeler](https://github.com/camunda/camunda-modeler), you can use the tool also to edit `.bpmn`, `.dmn` or `.form` files. The file extension for working with aBPR process diagrams is `.simubpmn` for simulable BPMN. 
 
-## Video Demonstration
+## Video demonstration
 
 A short demonstration video is provided here:
 
@@ -53,6 +53,10 @@ The procedure starts over allowing for an iterative improvement of the process m
 
 - [simuBPMN Help](simu-bpmn)
 
+Shoutout to [YOU SHENG CHEN](https://www.slideshare.net/ssuserff66e5) who turned the original paper into a slide deck: [An assisted approach to business process redesign.pptx](https://www.slideshare.net/ssuserff66e5/an-assisted-approach-to-business-process-redesignpptx).
+
+<iframe src="https://www.slideshare.net/slideshow/embed_code/key/jC2223Zu2GpcVR" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> 
+
 ## Built with
 
 * [Camunda Modeler](https://github.com/camunda/camunda-modeler) - An integrated modeling solution for BPMN and DMN based on bpmn.io.
@@ -62,4 +66,4 @@ The procedure starts over allowing for an iterative improvement of the process m
 
 ## Contact
 
-Tobias Fehrer ([@dtdi](https://twitter.com/dtdi_), [LinkedIn](https://www.linkedin.com/in/tobiasfehrer/), [tobias-fehrer.de](https://tobias-fehrer.de])
+Tobias Fehrer ([@dtdi](https://twitter.com/dtdi_), [LinkedIn](https://www.linkedin.com/in/tobiasfehrer/), [tobias-fehrer.de](https://tobias-fehrer.de))
