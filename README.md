@@ -12,7 +12,7 @@ In our prototype, we support process redesign patterns by [Reijers & Limam Mansa
 
 ### Love Process Redesign Patterns? 
 
-[<img src="https://dtdi.de/ads/assisted-bpr-modeler.png" width="419px" />](https://dtdi.de/gh-ads.php?repo=assisted-bpr-modeler)
+[<img src="https://dtdi.de/ads/assisted-bpr-modeler.png" width="419px" />](https://dtdi.de/i.php?repo=assisted-bpr-modeler)
 
 ### 1) Import or model a BPMN Business Process for improvement. 
 ![overall](https://user-images.githubusercontent.com/922917/125649915-accff879-538b-47b5-b75e-6a1ee47913ef.PNG)
