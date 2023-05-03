@@ -10,6 +10,10 @@ It is an implementation of the reference architecture presented in An assisted a
 The software prototype is a web application that starts from an empty canvas or from an existing BPMN diagram. It enables the user to annotate and edit a process model and recommends redesign options based on the process model and a defined performance objective (i.e., time, cost, quality, and flexibility). The user can then apply these recommendations and evaluate their impact with simulation experiments. This procedure is repeated until satisfaction with the process model is achieved. 
 In our prototype, we support process redesign patterns by [Reijers & Limam Mansar (2005)](https://doi.org/10.1016/j.omega.2004.04.012) in varying levels of automation: The triage and activity automation patterns are implemented as guided advice, the parallelism and extra resources pattern are implemented as advice whereas the remaining are implemented as hints and ideas. 
 
+### Love Process Redesign Patterns? 
+
+[<img src="https://dtdi.de/ads/assisted-bpr-modeler.png" width="419px" />](https://dtdi.de/gh-ads.php?repo=assisted-bpr-modeler).
+
 ### 1) Import or model a BPMN Business Process for improvement. 
 ![overall](https://user-images.githubusercontent.com/922917/125649915-accff879-538b-47b5-b75e-6a1ee47913ef.PNG)
 
