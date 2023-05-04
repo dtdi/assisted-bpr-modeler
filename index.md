@@ -11,6 +11,8 @@ Quick links
 
 [<img src="https://dtdi.de/ads/assisted-bpr-modeler.png" width="419px" />](https://dtdi.de/gh-ads.php?repo=assisted-bpr-modeler)
 
+[process-pattern.app](https://dtdi.de/gh-ads.php?repo=assisted-bpr-modeler) - A useful collection of patterns and best practices for process improvement observed in the field and collected to spark your ideas
+
 ## Getting started
 
 Depending on your Windows plattform (32 bit vs. 64 bit), either download `camunda-modeler-5.0.0-abpr-win-x64.zip` or `camunda-modeler-5.0.0-abpr-win-ia32.zip` from [the latest release](https://github.com/dtdi/assisted-bpr-modeler/releases/latest) and extract the `.zip` file. In the extracted folder, you will find the `Camunda Modeler.exe` file that you can execute. Since the aBPR tool is an extension of the [Camunda Modeler](https://github.com/camunda/camunda-modeler), you can use the tool also to edit `.bpmn`, `.dmn` or `.form` files. The file extension for working with aBPR process diagrams is `.simubpmn` for simulable BPMN. 
