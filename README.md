@@ -12,6 +12,8 @@ In our prototype, we support process redesign patterns by [Reijers & Limam Mansa
 
 ### Love Process Redesign Patterns? 
 
+We have set up a collection for redesign patterns that can provide useful inspiration for process improvement. 
+
 [<img src="https://dtdi.de/ads/assisted-bpr-modeler.png" width="419px" />](https://dtdi.de/i.php?repo=assisted-bpr-modeler)
 
 ### 1) Import or model a BPMN Business Process for improvement. 
@@ -33,7 +35,7 @@ The procedure starts over allowing for an iterative improvement of the process m
 
 ## Run the tool
 
-The protype is available for demonstration under https://dtdi.de/abpr/demo 
+The protype is available for demonstration under releases.
 
 A demonstration video is provided here:
 
