@@ -9,9 +9,9 @@ Quick links
 
 ### Love Redesign Patterns?
 
-[<img src="https://dtdi.de/ads/assisted-bpr-modeler.png" width="419px" />](https://dtdi.de/gh-ads.php?repo=assisted-bpr-modeler)
+[<img src="https://dtdi.de/ads/assisted-bpr-modeler.png" width="419px" />](https://dtdi.de/i.php?repo=assisted-bpr-modeler)
 
-[process-pattern.app](https://dtdi.de/gh-ads.php?repo=assisted-bpr-modeler) - A useful collection of patterns and best practices for process improvement observed in the field and collected to spark your ideas
+[process-pattern.app](https://dtdi.de/i.php?repo=assisted-bpr-modeler) - A useful collection of patterns and best practices for process improvement observed in the field and collected to spark your ideas
 
 ## Getting started
 
